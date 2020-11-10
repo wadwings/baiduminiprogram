@@ -1,0 +1,48 @@
+<view class="control">
+    <view class="center">
+    <button class="collection"><text>作品</text></button>
+    </view>
+    <view class="center relative">
+        <view>Animal</view>
+        <image class="down" src="../../images/下箭头.png"></image>
+    </view>
+    <view class="center" bindtap="recorder"><button class="black collection center"><text>录制</text></button></view>
+</view>
+<view class="keyboard grid">
+    <view class="grid top">
+        <view id="btn1" class="btn full" hover-class="hoverKey"></view>
+        <view id="btn2" class="btn full" hover-class="hoverKey"></view>
+        <view id="btn3" class="btn full" hover-class="hoverKey"></view>
+        <view class="grid">
+            <view id="btn4" class="btn double" hover-class="hoverKey"></view>
+            <view>
+                <view id="btn5" class="btn full" hover-class="hoverKey"></view>
+                <view id="btn6" class="btn full" hover-class="hoverKey"></view>
+            </view>
+        </view>
+    </view>
+    <view class="top">
+        <view id="btn7" class="btn half" hover-class="hoverKey"></view>
+        <view id="btn8" class="btn half" hover-class="hoverKey"></view>
+    </view>
+    <view>
+        <view id="btn9" class="btn full" hover-class="hoverKey"></view>
+    </view>
+    <view class="grid">
+        <view id="btn10" class="btn full" hover-class="hoverKey"></view>
+        <view id="btn11" class="btn full" hover-class="hoverKey"></view>
+        <view id="btn12" class="btn full" hover-class="hoverKey"></view>
+        <view id="btn13" class="btn full" hover-class="hoverKey"></view>
+    </view>
+    <view class="grid bottom">
+        <view id="btn14" class="btn double" hover-class="hoverKey"></view>
+        <view id="btn15" class="btn double" hover-class="hoverKey"></view>
+    </view>
+    <view class="grid bottom">
+        <view id="btn16" class="btn half" hover-class="hoverKey"></view>
+        <view class="">
+            <view id="btn17" class="btn full" hover-class="hoverKey"></view>
+            <view id="btn18" class="btn full" hover-class="hoverKey"></view>
+        </view>
+    </view>
+</view>
