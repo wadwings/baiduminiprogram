@@ -4,7 +4,9 @@ Page({
         'audioSources': []
     },
     onLoad: function () {
-
+        swan.navigateTo({
+            url: '../collection/collection'
+        })
         // 监听页面加载的生命周期函数
     },
     onReady: function() {
@@ -38,8 +40,11 @@ Page({
     recorderManagerStart(that){
         swan.getAvailableAudioSources({
             success: res =>{
+                let arr = []
+                for(let i = 1; i < res.audioSources.split('"').length;i += 2)
+                    arr.push(res.audioSources.split('"')[i])
                 that.setData({
-                    'audioSources': res.audioSources
+                    'audioSources': arr
                 });
                 console.log('当前支持的音频输入源:', res.audioSources);
             },
@@ -48,14 +53,13 @@ Page({
                 console.log('错误信息: '+ err.errMsg);
             }
         })
-        console.log(typeof that.data.audioSources)
         const recorderManager = swan.getRecorderManager();
         const options = {
             duration: 50000,
             sampleRate: 44100,
             numberOfChannels: 1,
             encodeBitRate: 96000,
-            audioSource: 'camcorder'
+            audioSource: that.data.audioSources.indexOf('camcorder') ? that.data.audioSources[that.data.audioSources.indexOf('camcorder')] : 'auto'
         };
         recorderManager.start(options);
         this.recorderManager = recorderManager;
@@ -67,6 +71,11 @@ Page({
         this.recorderManager.stop();
         this.setData({
             start: 0
+        })
+    },
+    navigateTo(e){
+        swan.navigateTo({
+            url: '../collection/collection'
         })
     }
 });

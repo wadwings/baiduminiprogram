@@ -1,6 +1,6 @@
 <view class="control">
     <view class="center">
-    <button class="collection"><text>作品</text></button>
+    <button class="collection" bindtap="navigateTo"><text>作品</text></button>
     </view>
     <view class="center relative">
         <view>Animal</view>

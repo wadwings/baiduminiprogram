@@ -1,0 +1,32 @@
+<view class="navbar">
+    <view class="text">
+        demo
+    </view>
+    <view class="nav">
+        <view>分享</view>
+        <view>返回</view>
+    </view>
+</view>
+<swiper class="image" next-margin="60px" previous-margin="20px">
+    <swiper-item class="swiperItem">
+        <image mode="aspectFill" src="https://images.pexels.com/photos/3489391/pexels-photo-3489391.jpeg"></image>
+    </swiper-item>
+    <swiper-item>
+        <image mode="aspectFill" src="https://images.pexels.com/photos/3489391/pexels-photo-3489391.jpeg"></image>
+    </swiper-item>
+</swiper>
+<view class="control">
+    <audio src=""></audio>
+    <view class="center">
+    <progress id="progress" activeColor="grey" percent="20"/>
+    </view>
+    <view class="center full">
+        <button class="center play-button">
+            <image mode="aspectFit" src="../../images/play.png"></image>
+        </button>
+    </view>
+</view>
+<view class="function">
+    <view class="center func-border">            <image mode="aspectFit" src="../../images/视频剪辑.png" class="func-pic"></image></view>
+    <view class="center func-border">            <image mode="aspectFit" src="../../images/download.png" class="func-pic"></image></view>
+</view>
