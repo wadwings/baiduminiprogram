@@ -3,12 +3,15 @@
     "cloudfunctionRoot": "cloudfunctions/",
     "cloudfunctionTemplateRoot": "cloudfunctionTemplate",
     "condition": {},
+    "host": "baiduboxapp",
+    "preview": {
+        "packageId": 626183
+    },
     "projectname": "cloud-demo",
     "setting": {
         "urlCheck": true
     },
     "smartProgramRoot": "miniprogram/",
-    "host": "baiduboxapp",
     "swan": {
         "baiduboxapp": {
             "swanJsVersion": "3.220.16",

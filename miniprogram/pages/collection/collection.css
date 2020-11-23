@@ -28,13 +28,13 @@ image{
     width: 65vw;
 }
 .control{
-    padding-top: 30px;
-    height:calc(20vh - 30px);
+    height:20vh;
     width:100%;
 }
 
-#progress{
+#slider{
     width: 80%;
+    margin: 0;
 }
 .center{
     display: flex;

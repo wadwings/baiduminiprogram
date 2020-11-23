@@ -1,32 +1,27 @@
 <view class="navbar">
-    <view class="text">
-        demo
-    </view>
+    <input bindconfirm="renamefile" class="text" value="{= value =}" placeholder="demo" >
+    </input>
     <view class="nav">
-        <view>分享</view>
-        <view>返回</view>
+        <view bindtap="share">分享</view>
+        <view bindtap="navback">返回</view>
     </view>
 </view>
-<swiper class="image" next-margin="60px" previous-margin="20px">
-    <swiper-item class="swiperItem">
-        <image mode="aspectFill" src="https://images.pexels.com/photos/3489391/pexels-photo-3489391.jpeg"></image>
-    </swiper-item>
-    <swiper-item>
-        <image mode="aspectFill" src="https://images.pexels.com/photos/3489391/pexels-photo-3489391.jpeg"></image>
+<swiper class="image" next-margin="60px" previous-margin="20px" bindchange="swipeChange">
+    <swiper-item class="swiperItem" s-for="record">
+        <image mode="aspectFill" src={{item.pic}}></image>
     </swiper-item>
 </swiper>
 <view class="control">
-    <audio src=""></audio>
-    <view class="center">
-    <progress id="progress" activeColor="grey" percent="20"/>
+    <view class="center" style="height: 30%">
+    <slider id="slider" value={{currentPercent}} block-size="12" block-color="grey" activeColor="grey" bindchange="sliderChange" bindchanging="sliderChanging" />
     </view>
-    <view class="center full">
-        <button class="center play-button">
-            <image mode="aspectFit" src="../../images/play.png"></image>
+    <view class="center" style="height: 70%">
+        <button class="center play-button" bindtap="playButtonPress">
+            <image mode="aspectFit" src={{playButtonPic}}></image>
         </button>
     </view>
 </view>
 <view class="function">
     <view class="center func-border">            <image mode="aspectFit" src="../../images/视频剪辑.png" class="func-pic"></image></view>
-    <view class="center func-border">            <image mode="aspectFit" src="../../images/download.png" class="func-pic"></image></view>
+    <view class="center func-border" bindtap="savefile">            <image mode="aspectFit" src="../../images/download.png" class="func-pic"></image></view>
 </view>

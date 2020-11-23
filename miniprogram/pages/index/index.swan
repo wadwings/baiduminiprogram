@@ -1,48 +1,54 @@
 <view class="control">
     <view class="center">
-    <button class="collection" bindtap="navigateTo"><text>作品</text></button>
+        <button class="collection" bindtap="navigateTo"><text>作品</text></button>
     </view>
     <view class="center relative">
-        <view>Animal</view>
-        <image class="down" src="../../images/下箭头.png"></image>
+        <view>{{music}}</view>
+        <image class="down" src={{arrow}} bindtap="selectMusic"></image>
+        <view class="musicList" s-if={{select}}>
+            <view class="musicBlock" s-for={{}}>
+
+            </view>
+        </view>
     </view>
-    <view class="center" bindtap="recorder"><button class="black collection center"><text>录制</text></button></view>
+    <view class="center" bindtap="recorder"><button class="black collection center"><text>{{status}}</text></button>
+    </view>
 </view>
 <view class="keyboard grid">
     <view class="grid top">
-        <view id="btn1" class="btn full" hover-class="hoverKey"></view>
-        <view id="btn2" class="btn full" hover-class="hoverKey"></view>
-        <view id="btn3" class="btn full" hover-class="hoverKey"></view>
+        <view id="btn1" class="btn full" hover-class="hoverKey" bindtap="play1"></view>
+        <view id="btn2" class="btn full" hover-class="hoverKey" bindtap="play2"></view>
+        <view id="btn3" class="btn full" hover-class="hoverKey" bindtap="play3"></view>
         <view class="grid">
-            <view id="btn4" class="btn double" hover-class="hoverKey"></view>
+            <view id="btn4" class="btn double" hover-class="hoverKey" bindtap="play4"></view>
             <view>
-                <view id="btn5" class="btn full" hover-class="hoverKey"></view>
-                <view id="btn6" class="btn full" hover-class="hoverKey"></view>
+                <view id="btn5" class="btn full" hover-class="hoverKey" bindtap="play5"></view>
+                <view id="btn6" class="btn full" hover-class="hoverKey" bindtap="play6"></view>
             </view>
         </view>
     </view>
     <view class="top">
-        <view id="btn7" class="btn half" hover-class="hoverKey"></view>
-        <view id="btn8" class="btn half" hover-class="hoverKey"></view>
+        <view id="btn7" class="btn half" hover-class="hoverKey" bindtap="play7"></view>
+        <view id="btn8" class="btn half" hover-class="hoverKey" bindtap="play8"></view>
     </view>
     <view>
-        <view id="btn9" class="btn full" hover-class="hoverKey"></view>
+        <view id="btn9" class="btn full" hover-class="hoverKey" bindtap="play9"></view>
     </view>
     <view class="grid">
-        <view id="btn10" class="btn full" hover-class="hoverKey"></view>
-        <view id="btn11" class="btn full" hover-class="hoverKey"></view>
-        <view id="btn12" class="btn full" hover-class="hoverKey"></view>
-        <view id="btn13" class="btn full" hover-class="hoverKey"></view>
+        <view id="btn10" class="btn full" hover-class="hoverKey" bindtap="play10"></view>
+        <view id="btn11" class="btn full" hover-class="hoverKey" bindtap="play11"></view>
+        <view id="btn12" class="btn full" hover-class="hoverKey" bindtap="play12"></view>
+        <view id="btn13" class="btn full" hover-class="hoverKey" bindtap="play13"></view>
     </view>
     <view class="grid bottom">
-        <view id="btn14" class="btn double" hover-class="hoverKey"></view>
-        <view id="btn15" class="btn double" hover-class="hoverKey"></view>
+        <view id="btn14" class="btn double" hover-class="hoverKey" bindtap="play14"></view>
+        <view id="btn15" class="btn double" hover-class="hoverKey" bindtap="play15"></view>
     </view>
     <view class="grid bottom">
-        <view id="btn16" class="btn half" hover-class="hoverKey"></view>
+        <view id="btn16" class="btn half" hover-class="hoverKey" bindtap="play16"></view>
         <view class="">
-            <view id="btn17" class="btn full" hover-class="hoverKey"></view>
-            <view id="btn18" class="btn full" hover-class="hoverKey"></view>
+            <view id="btn17" class="btn full" hover-class="hoverKey" bindtap="play17"></view>
+            <view id="btn18" class="btn full" hover-class="hoverKey" bindtap="play18"></view>
         </view>
     </view>
 </view>
