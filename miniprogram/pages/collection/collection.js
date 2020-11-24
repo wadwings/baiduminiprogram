@@ -13,7 +13,10 @@ Page({
         },
         'currentTime': 0,
         'duration': 1,
-        'currentPercent': 0
+        'currentPercent': 0,
+        'cut': 0,
+        'left': 0,
+        'right': 100
     },
     onLoad: function () {
         this.f = swan.getFileSystemManager();
@@ -155,25 +158,6 @@ Page({
             }
         })
     },
-    savefile() {
-        console.log(1)
-        this.f.saveFile({
-            tempFilePath: this.data.link[this.data.count],
-            success: res =>{
-                swan.showToast({
-                    title : "保存成功"
-                })
-                console.log(res.savedFilePath)
-                this.data.record[this.data.count].link = res.savedFilePath
-                this.data.record[this.data.count].permanent = true
-            },
-            fail: err =>{
-                swan.showToast({
-                    title: '保存失败'
-                })
-            }
-        })
-    },
     share() {
         if (!this.data.link) {
             swan.showToast({
@@ -199,7 +183,26 @@ Page({
 
         }
     },
-    navback() {
-        swan.navigateBack();
+    cut(){
+        let that = this
+        swan.showActionSheet({
+            itemList : ['开始剪辑'],
+            itemColor : 'grey',
+            success: res =>{
+                that.setData({
+                    cut : 1
+                })
+            }
+        })
+    },
+    cancel(){
+        this.setData({
+            cut : 0
+        })
+    },
+    save(){
+        this.setData({
+            cut: 0
+        })
     }
 });

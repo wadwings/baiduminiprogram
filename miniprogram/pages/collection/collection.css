@@ -32,7 +32,7 @@ image{
     width:100%;
 }
 
-#slider{
+.slider{
     width: 80%;
     margin: 0;
 }
@@ -66,4 +66,18 @@ button::after{
 .func-border{
     border-left: 1px grey solid;
     border-top: 1px grey solid;
+}
+.timeCounter{
+    position: absolute;
+    bottom: 0;
+    height: 20px;
+    width: inherit;
+}
+.sliderview{
+    position: relative;
+    width: 100%;
+}
+#right{
+    position: absolute;
+    top:0;
 }
