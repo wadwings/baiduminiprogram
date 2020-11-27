@@ -1,17 +1,15 @@
 .navbar{
     display: grid;
     height: 10vh;
-    grid-template-columns: 1fr 3fr 1fr;
-    font-weight: 300;
+    grid-template-columns: 1fr 1fr;
 }
 
 .text{
     display:flex;
     align-items: flex-end;
-    /* border-bottom: 1px black solid; */
+    border-bottom: 1px black solid;
     margin: 10%;
     font-weight: 600;
-    text-align: center;
 }
 
 .nav{
@@ -22,16 +20,23 @@
     font-weight: 200;
 }
 .image{
-    height:60vh;
-
+    height:55vh;
+}
+.swiperItem{
+    position: relative;
+}
+.swiperImage{
+    position: absolute;
+    height: 75vh;
 }
 image{
     display: inline-block;
     height:inherit;
-    width: 65vw;
+    width: 80%;
+    z-index: 2;
 }
 .control{
-    height:30vh;
+    height:20vh;
     width:100%;
 }
 
@@ -59,7 +64,7 @@ button::after{
 }
 .function{
     width: 100vw;
-    height:30vh;
+    height:15vh;
     display:grid;
     grid-template-columns: 50vw 50vw;
 }
@@ -70,12 +75,6 @@ button::after{
     border-left: 1px grey solid;
     border-top: 1px grey solid;
 }
-.timeCounter{
-    position: absolute;
-    bottom: 0;
-    height: 20px;
-    width: inherit;
-}
 .sliderview{
     position: relative;
     width: 100%;
@@ -83,7 +82,4 @@ button::after{
 #right{
     position: absolute;
     top:0;
-}
-.swiperImage{
-    width: 80%
 }

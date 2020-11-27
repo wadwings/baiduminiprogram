@@ -27,10 +27,10 @@ Page({
             'record': [],
             'music': null,
         },
-        'timeout':[],
-        'timeoout':[],
-        'hover':[null,''],
-        'recordTime':"00:00",
+        'timeout': [],
+        'timeoout': [],
+        'hover': [null, ''],
+        'recordTime': "00:00",
         'minute': 0,
         'second': 0
     },
@@ -47,7 +47,7 @@ Page({
             }
         });
         this.recorderManagerInit(that);
-        //this.loadAudioFile();
+        this.loadAudioFile();
         // swan.navigateTo({
         //     url: '../collection/collection'
         // })
@@ -106,35 +106,42 @@ Page({
         recorderManager.onStop(
             function (res) {
                 console.log("record stop")
-                app.globalData.recorderHistorylink.push(res.tempFilePath);
-                app.globalData.recorderHistoryMusic.push(that.data.music);
+                app.globalData.temp = {
+                    link: res.tempFilePath,
+                    music: that.data.music,
+                    value: null
+                };
+                swan.navigateTo({
+                    url: '../product/product'
+                })
             }
+
         )
     },
-    recorderManagerUpdate(that){
+    recorderManagerUpdate(that) {
         that.data.second++
-        if(that.data.second == 60){
+        if (that.data.second == 60) {
             that.data.minute++
             that.data.second = 0
         }
-        if(that.data.second < 10){
-            if(that.data.minute < 10)
+        if (that.data.second < 10) {
+            if (that.data.minute < 10)
                 that.setData({
-                    recordTime : '0' + that.data.minute + ':' + '0' + that.data.second
+                    recordTime: '0' + that.data.minute + ':' + '0' + that.data.second
                 })
             else
                 that.setData({
-                    recordTime : that.data.minute + ':' + '0' + that.data.second
+                    recordTime: that.data.minute + ':' + '0' + that.data.second
                 })
-        }else{
-            if(that.data.minute < 10)
-            that.setData({
-                recordTime : '0' + that.data.minute + ':' + that.data.second
-            })
-        else
-            that.setData({
-                recordTime : that.data.minute + ':' + that.data.second
-            })
+        } else {
+            if (that.data.minute < 10)
+                that.setData({
+                    recordTime: '0' + that.data.minute + ':' + that.data.second
+                })
+            else
+                that.setData({
+                    recordTime: that.data.minute + ':' + that.data.second
+                })
         }
     },
     recorderManagerStart() {
@@ -153,7 +160,9 @@ Page({
             status: "停止",
             start: 1
         })
-        this.data.interval = setInterval(() =>{this.recorderManagerUpdate(this)}, 1000);
+        this.data.interval = setInterval(() => {
+            this.recorderManagerUpdate(this)
+        }, 1000);
     },
     recorderManagerStop() {
         this.data.record.endTime = Date.now()
@@ -165,11 +174,10 @@ Page({
         console.log(this.data.record)
         clearInterval(this.data.interval)
         this.setData({
-            second : 0,
-            minute : 0,
-            recordTime : '00:00'
+            second: 0,
+            minute: 0,
+            recordTime: '00:00'
         })
-
     },
     navigateTo(e) {
         swan.navigateTo({
@@ -208,19 +216,19 @@ Page({
         let inneraudiocontext = swan.createInnerAudioContext();
         inneraudiocontext.src = this.data.audioFilePath[1];
         inneraudiocontext.play();
-        if(this.data.timeout[1]){
+        if (this.data.timeout[1]) {
             clearTimeout(this.data.timeout[1])
             clearTimeout(this.data.timeoout[1])
             this.setData({
-                hover1 : 'blackKey'
+                hover1: 'blackKey'
             })
         }
-        this.data.timeout[1] = setTimeout( () =>{
+        this.data.timeout[1] = setTimeout(() => {
             this.setData({
-                hover1 : ''
+                hover1: ''
             })
         }, 1000);
-        this.data.timeoout[1] = setTimeout(()=>{
+        this.data.timeoout[1] = setTimeout(() => {
             this.data.timeout[1] = 0
         }, 5000)
     },
@@ -232,19 +240,19 @@ Page({
         let inneraudiocontext = swan.createInnerAudioContext();
         inneraudiocontext.src = this.data.audioFilePath[2];
         inneraudiocontext.play();
-        if(this.data.timeout[2]){
+        if (this.data.timeout[2]) {
             clearTimeout(this.data.timeout[2])
             clearTimeout(this.data.timeoout[2])
             this.setData({
-                hover2 : 'blackKey'
+                hover2: 'blackKey'
             })
         }
-        this.data.timeout[2] = setTimeout( () =>{
+        this.data.timeout[2] = setTimeout(() => {
             this.setData({
-                hover2 : ''
+                hover2: ''
             })
         }, 1000);
-        this.data.timeoout[2] = setTimeout(()=>{
+        this.data.timeoout[2] = setTimeout(() => {
             this.data.timeout[2] = 0
         }, 5000)
     },
@@ -256,19 +264,19 @@ Page({
         let inneraudiocontext = swan.createInnerAudioContext();
         inneraudiocontext.src = this.data.audioFilePath[3];
         inneraudiocontext.play();
-        if(this.data.timeout[3]){
+        if (this.data.timeout[3]) {
             clearTimeout(this.data.timeout[3])
             clearTimeout(this.data.timeoout[3])
             this.setData({
-                hover3 : 'blackKey'
+                hover3: 'blackKey'
             })
         }
-        this.data.timeout[3] = setTimeout( () =>{
+        this.data.timeout[3] = setTimeout(() => {
             this.setData({
-                hover3 : ''
+                hover3: ''
             })
         }, 1000);
-        this.data.timeoout[3] = setTimeout(()=>{
+        this.data.timeoout[3] = setTimeout(() => {
             this.data.timeout[3] = 0
         }, 5000)
 
@@ -281,19 +289,19 @@ Page({
         let inneraudiocontext = swan.createInnerAudioContext();
         inneraudiocontext.src = this.data.audioFilePath[4];
         inneraudiocontext.play();
-        if(this.data.timeout[4]){
+        if (this.data.timeout[4]) {
             clearTimeout(this.data.timeout[4])
             clearTimeout(this.data.timeoout[4])
             this.setData({
-                hover4 : 'blackKey'
+                hover4: 'blackKey'
             })
         }
-        this.data.timeout[4] = setTimeout( () =>{
+        this.data.timeout[4] = setTimeout(() => {
             this.setData({
-                hover4 : ''
+                hover4: ''
             })
         }, 1000);
-        this.data.timeoout[4] = setTimeout(()=>{
+        this.data.timeoout[4] = setTimeout(() => {
             this.data.timeout[4] = 0
         }, 5000)
     },
@@ -305,19 +313,19 @@ Page({
         let inneraudiocontext = swan.createInnerAudioContext();
         inneraudiocontext.src = this.data.audioFilePath[5];
         inneraudiocontext.play();
-        if(this.data.timeout[5]){
+        if (this.data.timeout[5]) {
             clearTimeout(this.data.timeout[5])
             clearTimeout(this.data.timeoout[5])
             this.setData({
-                hover5 : 'blackKey'
+                hover5: 'blackKey'
             })
         }
-        this.data.timeout[5] = setTimeout( () =>{
+        this.data.timeout[5] = setTimeout(() => {
             this.setData({
-                hover5 : ''
+                hover5: ''
             })
         }, 1000);
-        this.data.timeoout[5] = setTimeout(()=>{
+        this.data.timeoout[5] = setTimeout(() => {
             this.data.timeout[5] = 0
         }, 5000)
     },
@@ -329,19 +337,19 @@ Page({
         let inneraudiocontext = swan.createInnerAudioContext();
         inneraudiocontext.src = this.data.audioFilePath[6];
         inneraudiocontext.play();
-        if(this.data.timeout[6]){
+        if (this.data.timeout[6]) {
             clearTimeout(this.data.timeout[6])
             clearTimeout(this.data.timeoout[6])
             this.setData({
-                hover6 : 'blackKey'
+                hover6: 'blackKey'
             })
         }
-        this.data.timeout[6] = setTimeout( () =>{
+        this.data.timeout[6] = setTimeout(() => {
             this.setData({
-                hover6 : ''
+                hover6: ''
             })
         }, 1000);
-        this.data.timeoout[6] = setTimeout(()=>{
+        this.data.timeoout[6] = setTimeout(() => {
             this.data.timeout[6] = 0
         }, 5000)
     },
@@ -353,19 +361,19 @@ Page({
         let inneraudiocontext = swan.createInnerAudioContext();
         inneraudiocontext.src = this.data.audioFilePath[7];
         inneraudiocontext.play();
-        if(this.data.timeout[7]){
+        if (this.data.timeout[7]) {
             clearTimeout(this.data.timeout[7])
             clearTimeout(this.data.timeoout[7])
             this.setData({
-                hover7 : 'blackKey'
+                hover7: 'blackKey'
             })
         }
-        this.data.timeout[7] = setTimeout( () =>{
+        this.data.timeout[7] = setTimeout(() => {
             this.setData({
-                hover7 : ''
+                hover7: ''
             })
         }, 1000);
-        this.data.timeoout[7] = setTimeout(()=>{
+        this.data.timeoout[7] = setTimeout(() => {
             this.data.timeout[7] = 0
         }, 5000)
     },
@@ -377,19 +385,19 @@ Page({
         let inneraudiocontext = swan.createInnerAudioContext();
         inneraudiocontext.src = this.data.audioFilePath[8];
         inneraudiocontext.play();
-        if(this.data.timeout[8]){
+        if (this.data.timeout[8]) {
             clearTimeout(this.data.timeout[8])
             clearTimeout(this.data.timeoout[8])
             this.setData({
-                hover8 : 'blackKey'
+                hover8: 'blackKey'
             })
         }
-        this.data.timeout[8] = setTimeout( () =>{
+        this.data.timeout[8] = setTimeout(() => {
             this.setData({
-                hover8 : ''
+                hover8: ''
             })
         }, 1000);
-        this.data.timeoout[8] = setTimeout(()=>{
+        this.data.timeoout[8] = setTimeout(() => {
             this.data.timeout[8] = 0
         }, 5000)
     },
@@ -401,19 +409,19 @@ Page({
         let inneraudiocontext = swan.createInnerAudioContext();
         inneraudiocontext.src = this.data.audioFilePath[9];
         inneraudiocontext.play();
-        if(this.data.timeout[9]){
+        if (this.data.timeout[9]) {
             clearTimeout(this.data.timeout[9])
             clearTimeout(this.data.timeoout[9])
             this.setData({
-                hover9 : 'blackKey'
+                hover9: 'blackKey'
             })
         }
-        this.data.timeout[9] = setTimeout( () =>{
+        this.data.timeout[9] = setTimeout(() => {
             this.setData({
-                hover9 : ''
+                hover9: ''
             })
         }, 1000);
-        this.data.timeoout[9] = setTimeout(()=>{
+        this.data.timeoout[9] = setTimeout(() => {
             this.data.timeout[9] = 0
         }, 5000)
     },
@@ -425,19 +433,19 @@ Page({
         let inneraudiocontext = swan.createInnerAudioContext();
         inneraudiocontext.src = this.data.audioFilePath[10];
         inneraudiocontext.play();
-        if(this.data.timeout[10]){
+        if (this.data.timeout[10]) {
             clearTimeout(this.data.timeout[10])
             clearTimeout(this.data.timeoout[10])
             this.setData({
-                hover10 : 'blackKey'
+                hover10: 'blackKey'
             })
         }
-        this.data.timeout[10] = setTimeout( () =>{
+        this.data.timeout[10] = setTimeout(() => {
             this.setData({
-                hover10 : ''
+                hover10: ''
             })
         }, 1000);
-        this.data.timeoout[10] = setTimeout(()=>{
+        this.data.timeoout[10] = setTimeout(() => {
             this.data.timeout[10] = 0
         }, 5000)
     },
@@ -449,19 +457,19 @@ Page({
         let inneraudiocontext = swan.createInnerAudioContext();
         inneraudiocontext.src = this.data.audioFilePath[11];
         inneraudiocontext.play();
-        if(this.data.timeout[11]){
+        if (this.data.timeout[11]) {
             clearTimeout(this.data.timeout[11])
             clearTimeout(this.data.timeoout[11])
             this.setData({
-                hover11 : 'blackKey'
+                hover11: 'blackKey'
             })
         }
-        this.data.timeout[11] = setTimeout( () =>{
+        this.data.timeout[11] = setTimeout(() => {
             this.setData({
-                hover11 : ''
+                hover11: ''
             })
         }, 1000);
-        this.data.timeoout[11] = setTimeout(()=>{
+        this.data.timeoout[11] = setTimeout(() => {
             this.data.timeout[11] = 0
         }, 5000)
     },
@@ -473,19 +481,19 @@ Page({
         let inneraudiocontext = swan.createInnerAudioContext();
         inneraudiocontext.src = this.data.audioFilePath[12];
         inneraudiocontext.play();
-        if(this.data.timeout[12]){
+        if (this.data.timeout[12]) {
             clearTimeout(this.data.timeout[12])
             clearTimeout(this.data.timeoout[12])
             this.setData({
-                hover12 : 'blackKey'
+                hover12: 'blackKey'
             })
         }
-        this.data.timeout[12] = setTimeout( () =>{
+        this.data.timeout[12] = setTimeout(() => {
             this.setData({
-                hover12 : ''
+                hover12: ''
             })
         }, 1000);
-        this.data.timeoout[12] = setTimeout(()=>{
+        this.data.timeoout[12] = setTimeout(() => {
             this.data.timeout[12] = 0
         }, 5000)
     },
@@ -497,19 +505,19 @@ Page({
         let inneraudiocontext = swan.createInnerAudioContext();
         inneraudiocontext.src = this.data.audioFilePath[13];
         inneraudiocontext.play();
-        if(this.data.timeout[13]){
+        if (this.data.timeout[13]) {
             clearTimeout(this.data.timeout[13])
             clearTimeout(this.data.timeoout[13])
             this.setData({
-                hover13 : 'blackKey'
+                hover13: 'blackKey'
             })
         }
-        this.data.timeout[13] = setTimeout( () =>{
+        this.data.timeout[13] = setTimeout(() => {
             this.setData({
-                hover13 : ''
+                hover13: ''
             })
         }, 1000);
-        this.data.timeoout[13] = setTimeout(()=>{
+        this.data.timeoout[13] = setTimeout(() => {
             this.data.timeout[13] = 0
         }, 5000)
     },
@@ -521,19 +529,19 @@ Page({
         let inneraudiocontext = swan.createInnerAudioContext();
         inneraudiocontext.src = this.data.audioFilePath[14];
         inneraudiocontext.play();
-        if(this.data.timeout[14]){
+        if (this.data.timeout[14]) {
             clearTimeout(this.data.timeout[14])
             clearTimeout(this.data.timeoout[14])
             this.setData({
-                hover14 : 'blackKey'
+                hover14: 'blackKey'
             })
         }
-        this.data.timeout[14] = setTimeout( () =>{
+        this.data.timeout[14] = setTimeout(() => {
             this.setData({
-                hover14 : ''
+                hover14: ''
             })
         }, 1000);
-        this.data.timeoout[14] = setTimeout(()=>{
+        this.data.timeoout[14] = setTimeout(() => {
             this.data.timeout[14] = 0
         }, 5000)
     },
@@ -545,19 +553,19 @@ Page({
         let inneraudiocontext = swan.createInnerAudioContext();
         inneraudiocontext.src = this.data.audioFilePath[15];
         inneraudiocontext.play();
-        if(this.data.timeout[15]){
+        if (this.data.timeout[15]) {
             clearTimeout(this.data.timeout[15])
             clearTimeout(this.data.timeoout[15])
             this.setData({
-                hover15 : 'blackKey'
+                hover15: 'blackKey'
             })
         }
-        this.data.timeout[15] = setTimeout( () =>{
+        this.data.timeout[15] = setTimeout(() => {
             this.setData({
-                hover15 : ''
+                hover15: ''
             })
         }, 1000);
-        this.data.timeoout[15] = setTimeout(()=>{
+        this.data.timeoout[15] = setTimeout(() => {
             this.data.timeout[15] = 0
         }, 5000)
     },
@@ -569,19 +577,19 @@ Page({
         let inneraudiocontext = swan.createInnerAudioContext();
         inneraudiocontext.src = this.data.audioFilePath[16];
         inneraudiocontext.play();
-        if(this.data.timeout[16]){
+        if (this.data.timeout[16]) {
             clearTimeout(this.data.timeout[16])
             clearTimeout(this.data.timeoout[16])
             this.setData({
-                hover16 : 'blackKey'
+                hover16: 'blackKey'
             })
         }
-        this.data.timeout[16] = setTimeout( () =>{
+        this.data.timeout[16] = setTimeout(() => {
             this.setData({
-                hover16 : ''
+                hover16: ''
             })
         }, 1000);
-        this.data.timeoout[16] = setTimeout(()=>{
+        this.data.timeoout[16] = setTimeout(() => {
             this.data.timeout[16] = 0
         }, 5000)
     },
@@ -590,24 +598,23 @@ Page({
             name: this.data.music + '_chip17.mp3',
             time: Date.now() - this.data.record.startTime
         })
-        console.log(e)
         let inneraudiocontext = swan.createInnerAudioContext();
         inneraudiocontext.src = this.data.audioFilePath[17];
         inneraudiocontext.play();
-        if(this.data.timeout[17]){
+        if (this.data.timeout[17]) {
             clearTimeout(this.data.timeout[17])
             clearTimeout(this.data.timeoout[17])
             this.setData({
-                hover17 : 'blackKey'
+                hover17: 'blackKey'
             })
         }
-        this.data.timeout[17] = setTimeout( () =>{
+        this.data.timeout[17] = setTimeout(() => {
             this.setData({
-                hover17 : ''
+                hover17: ''
             })
         }, 1000);
         setTimeout();
-        this.data.timeoout[17] = setTimeout(()=>{
+        this.data.timeoout[17] = setTimeout(() => {
             this.data.timeout[17] = 0
         }, 5000)
     },
@@ -619,19 +626,19 @@ Page({
         let inneraudiocontext = swan.createInnerAudioContext();
         inneraudiocontext.src = this.data.audioFilePath[18];
         inneraudiocontext.play();
-        if(this.data.timeout[18]){
+        if (this.data.timeout[18]) {
             clearTimeout(this.data.timeout[18])
             clearTimeout(this.data.timeoout[18])
             this.setData({
-                hover18 : 'blackKey'
+                hover18: 'blackKey'
             })
         }
-        this.data.timeout[18] = setTimeout( () =>{
+        this.data.timeout[18] = setTimeout(() => {
             this.setData({
-                hover18 : ''
+                hover18: ''
             })
         }, 1000);
-        this.data.timeoout[18] = setTimeout(()=>{
+        this.data.timeoout[18] = setTimeout(() => {
             this.data.timeout[18] = 0
         }, 5000)
     },

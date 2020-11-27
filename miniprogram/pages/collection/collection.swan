@@ -1,14 +1,12 @@
 <view class="navbar">
-    <input bindconfirm="renamefile" class="text" value="{= value =}" placeholder="demo" >
+    <view class="center" bindtap="remove"><text>删除</text></view>
+    <input bindconfirm="renamefile" class="text center" value="{= value =}" placeholder="demo" >
     </input>
-    <view class="nav">
-        <view></view>
-        <view bindtap="navback"></view>
-    </view>
+    <view class="center" bindtap="share"><text>分享</text></view>
 </view>
-<swiper class="image" next-margin="60px" previous-margin="20px" bindchange="swipeChange">
+<swiper class="image" next-margin="20px" previous-margin="60px" bindchange="swipeChange">
     <swiper-item class="swiperItem" s-for="record">
-        <image mode="aspectFill" src={{item.pic}}></image>
+        <image class="swiperImage" mode="aspectFill" src={{item.pic}}></image>
     </swiper-item>
 </swiper>
 <view class="control">
@@ -24,12 +22,4 @@
             <image s-if={{!cut}} mode="aspectFit" src={{playButtonPic}}></image>
         </button>
     </view>
-</view>
-<view s-if={{!cut}} class="function">
-    <view class="center func-border" bindtap="cut">            <image mode="aspectFit" src="../../images/视频剪辑.png" class="func-pic"></image></view>
-    <view class="center func-border"  bindtap="share">            <image mode="aspectFit" src="../../images/share.png" class="func-pic"></image></view>
-</view>
-<view s-if={{cut}} class="function">
-    <view class="center func-border" bindtap="cancel">            <image mode="aspectFit" src="../../images/left.png" class="func-pic"></image></view>
-    <view class="center func-border"  bindtap="save">            <image mode="aspectFit" src="../../images/download.png" class="func-pic"></image></view>
 </view>

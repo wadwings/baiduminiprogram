@@ -2,21 +2,30 @@ const app = getApp();
 Page({
     data: {
         'record': null, //record = [{link, music, pic, ispermanent}]
+        'link': null,
         'play': 0,
-        'playButtonPic':"../../images/play.png",
+        'playButtonPic': "../../images/play.png",
         'count': 0,
         'value': null,
         'sharelink': null,
+        'pic': {
+            'AndroidPorn': "https://images.pexels.com/photos/3489391/pexels-photo-3489391.jpeg",
+        },
         'currentTime': 0,
         'duration': 1,
         'currentPercent': 0,
-        'cut': 0,
         'left': 0,
         'right': 100
     },
     onLoad: function () {
         this.f = swan.getFileSystemManager();
+        console.log(this.f);
+        this.setData({
+            'link': app.globalData.temp.link,
+            'music': app.globalData.temp.music
+        })
         this.swipeInit();
+        console.log(this.data.record)
         this.audioInit();
         // 监听页面加载的生命周期函数
     },
@@ -42,47 +51,39 @@ Page({
         // 用户点击右上角转发
     },
     swipeInit() {
-        this.setData({
-            record: app.globalData.record,
-            value: app.globalData.record[0] ? app.globalData.record[0].value : null
+        let arr = []
+        arr.push({
+            link: this.data.link,
+            music: this.data.music,
+            pic: this.data.pic[this.data.music],
+            ispermanent: false,
+            value: null
         })
-    },
-    swipeChange(e){
         this.setData({
-            playButtonPic: "../../images/play.png",
-            play: 0,
-            count: e.detail.current,
-            value: this.data.record[e.detail.current].value
+            record: arr,
+            value: this.data.music
         })
-        this.data.audio.stop();
-        this.audioInit();
     },
     audioInit() {
-        if(this.data.audio){
-            this.data.audio.offTimeUpdate()
-            console.log(this.data.audio)
-            this.data.audio.destory()
-        }
         const audio = swan.createInnerAudioContext();
         this.data.audio = audio;
-        if (this.data.record.length) {
-            audio.src = this.data.record[this.data.count].link
+        if (this.data.link) {
+            audio.src = this.data.link
             audio.onTimeUpdate(res => {
-                console.log(res.data.currentTime)
-                this.setData({
-                    'currentTime': res.data.currentTime,
-                    'duration': res.data.duration,
-                    'currentPercent': res.data.currentTime / res.data.duration * 100
+                    console.log(res.data.currentTime)
+                    this.setData({
+                        'currentTime': res.data.currentTime,
+                        'duration': res.data.duration,
+                        'currentPercent': res.data.currentTime / res.data.duration * 100
+                    })
+                }),
+                audio.onEnded(res => {
+                    this.audioStop()
                 })
-                console.log(this.data)
-            }),
-            audio.onEnded(res =>{
-                this.audioStop()
-            })
         }
     },
     sliderChanging() {
-        if(this.data.play)
+        if (this.data.play)
             this.data.audio.pause();
     },
     sliderChange(e) {
@@ -91,7 +92,7 @@ Page({
             'currentPercent': e.detail.value
         })
         this.data.audio.seek(e.detail.value * this.data.duration / 100)
-        if(this.data.play)
+        if (this.data.play)
             this.data.audio.play();
     },
     playButtonPress() {
@@ -107,7 +108,7 @@ Page({
             playButtonPic: "../../images/pause.png"
         })
     },
-    audioStop(){
+    audioStop() {
         this.data.audio.stop();
         this.setData({
             play: 0,
@@ -122,33 +123,18 @@ Page({
         })
     },
     renamefile(e) {
-        this.data.record[this.data.count].value = e.detail.value
-        this.f.rename({
-            oldPath: this.data.record[this.data.count].link,
-            newPath: `${swan.env.USER_DATA_PATH}/${this.data.record[this.data.count].value}.aac`,
-            success: res=>{
-                swan.showToast({
-                    title:"修改成功",
-                })
-            },
-            fail: res=>{
-                swan.showToast({
-                    title: '修改失败',
-                    icon : 'none'
-                })
-            }
-        })
-        this.data.record[this.data.count].link = `${swan.env.USER_DATA_PATH}/${this.data.record[this.data.count].value}.aac`
+        this.data.value = e.detail.value
+        console.log(this.data.value)
     },
     share() {
-        if (!this.data.record.length) {
+        if (!this.data.link) {
             swan.showToast({
                 title: '录音文件不存在',
                 icon: 'none'
             })
         } else {
             swan.shareFile({
-                filePath: this.data.record[this.data.count].link,
+                filePath: this.data.link,
                 success: res => {
                     swan.showToast({
                         title: '分享成功',
@@ -165,17 +151,52 @@ Page({
 
         }
     },
-    remove(){
-        swan.showModal({
-            content: '是否真的要删除该文件',
-            success : res =>{
-                if(res.confirm){
-                    app.globalData.record.splice(this.data.count, 1)
-                    console.log(app.globalData.record)
-                    this.swipeInit();
-                    this.audioInit();
-                }
+    navback() {
+        swan.navigateBack();
+    },
+    cut() {
+        let that = this
+        swan.showActionSheet({
+            itemList: ['开始剪辑'],
+            itemColor: 'grey',
+            success: res => {
+                that.setData({
+                    cut: 1
+                })
             }
         })
+    },
+    cancel() {
+        this.setData({
+            cut: 0
+        })
+    },
+    save() {
+        this.setData({
+            cut: 0
+        })
+        this.f.saveFile({
+            tempFilePath: this.data.link,
+            filePath: `${swan.env.USER_DATA_PATH}/${this.data.value}.aac`,
+            success: res => {
+                swan.showToast({
+                    title: "保存成功"
+                })
+                console.log(res.savedFilePath)
+                this.data.record[0].link = res.savedFilePath
+                this.data.record[0].permanent = true
+                this.data.record[0].value = this.data.value
+            },
+            fail: err => {
+                swan.showToast({
+                    title: '保存失败',
+                    icon: "none"
+                })
+            }
+        })
+        if (!app.globalData.record)
+            app.globalData.record = []
+        app.globalData.record.push(this.data.record[0])
+        swan.navigateBack()
     }
 });
