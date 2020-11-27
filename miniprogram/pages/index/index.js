@@ -32,7 +32,8 @@ Page({
         'hover': [null, ''],
         'recordTime': "00:00",
         'minute': 0,
-        'second': 0
+        'second': 0,
+        'audio': [],
     },
     onLoad: function () {
         let that = this;
@@ -111,9 +112,33 @@ Page({
                     music: that.data.music,
                     value: null
                 };
-                swan.navigateTo({
-                    url: '../product/product'
-                })
+                console.log(that.data)
+                swan.request({
+                    // 开发者服务器接口地址
+                    url:  "https://bemusician.uniquestudio.orange233.top/music/merge",
+                    // 请求的参数
+                    data: that.data.record.record,
+                    // 设置请求的 header，header 中不能设置 Referer。
+                    header: {
+                    },
+                    // 有效值：OPTIONS, GET, HEAD, POST, PUT, DELETE 。
+                    method: 'POST',
+                    // 有效值：string,json。 如果设为 json，会尝试对返回的数据做一次 JSON.parse 。
+                    dataType: 'json',
+                    // 设置响应的数据类型, 合法值：text、arraybuffer。
+                    responseType: 'text',
+                    // 收到开发者服务成功返回的回调函数。
+                    success: res => {
+                        console.log(res)
+                    },
+                    // 接口调用失败的回调函数。
+                    fail: res => {},
+                    // 接口调用结束的回调函数（调用成功、失败都会执行）。
+                    complete: res => {}
+                });
+                 swan.navigateTo({
+                     url: '../product/product'
+                 })
             }
 
         )
@@ -180,6 +205,7 @@ Page({
         })
     },
     navigateTo(e) {
+        if(!this.data.start)
         swan.navigateTo({
             url: '../collection/collection'
         })
@@ -195,7 +221,10 @@ Page({
                 url: this.data.cdn + this.data.music + '/' + this.data.music + '_chip' + i + this.data.extention,
                 success: res => {
                     this.data.audioFilePath[i] = res.tempFilePath;
+                    this.data.audio[i] = swan.createInnerAudioContext()
+                    this.data.audio[i].src = res.tempFilePath
                     console.log(res.tempFilePath);
+                    console.log(this.data.audio[i])
                     count++
                     if (count == 18)
                         swan.hideLoading()
@@ -208,438 +237,31 @@ Page({
             })
 
     },
-    play1(e) {
+    play(e){
+        console.log(e.currentTarget)
         this.data.record.record.push({
-            name: this.data.music + '_chip1.mp3',
+            name: this.data.music + '_chip' + e.currentTarget.dataset.src + '.mp3',
             time: Date.now() - this.data.record.startTime
         })
-        let inneraudiocontext = swan.createInnerAudioContext();
-        inneraudiocontext.src = this.data.audioFilePath[1];
-        inneraudiocontext.play();
-        if (this.data.timeout[1]) {
-            clearTimeout(this.data.timeout[1])
-            clearTimeout(this.data.timeoout[1])
+        this.data.audio[parseInt(e.currentTarget.dataset.src)].play();
+        if (this.data.timeout[parseInt(e.currentTarget.dataset.src)]) {
+            clearTimeout(this.data.timeout[parseInt(e.currentTarget.dataset.src)])
+            clearTimeout(this.data.timeoout[parseInt(e.currentTarget.dataset.src)])
+            let hover = this.data.hover
+            hover[parseInt(e.currentTarget.dataset.src)] = 'blackKey'
             this.setData({
-                hover1: 'blackKey'
+                hover : hover
             })
         }
-        this.data.timeout[1] = setTimeout(() => {
+        this.data.timeout[parseInt(e.currentTarget.dataset.src)] = setTimeout(() => {
+            let hover = this.data.hover
+            hover[parseInt(e.currentTarget.dataset.src)] = ''
             this.setData({
-                hover1: ''
+                hover : hover
             })
         }, 1000);
-        this.data.timeoout[1] = setTimeout(() => {
-            this.data.timeout[1] = 0
-        }, 5000)
-    },
-    play2() {
-        this.data.record.record.push({
-            name: this.data.music + '_chip2.mp3',
-            time: Date.now() - this.data.record.startTime
-        })
-        let inneraudiocontext = swan.createInnerAudioContext();
-        inneraudiocontext.src = this.data.audioFilePath[2];
-        inneraudiocontext.play();
-        if (this.data.timeout[2]) {
-            clearTimeout(this.data.timeout[2])
-            clearTimeout(this.data.timeoout[2])
-            this.setData({
-                hover2: 'blackKey'
-            })
-        }
-        this.data.timeout[2] = setTimeout(() => {
-            this.setData({
-                hover2: ''
-            })
-        }, 1000);
-        this.data.timeoout[2] = setTimeout(() => {
-            this.data.timeout[2] = 0
-        }, 5000)
-    },
-    play3() {
-        this.data.record.record.push({
-            name: this.data.music + '_chip3.mp3',
-            time: Date.now() - this.data.record.startTime
-        })
-        let inneraudiocontext = swan.createInnerAudioContext();
-        inneraudiocontext.src = this.data.audioFilePath[3];
-        inneraudiocontext.play();
-        if (this.data.timeout[3]) {
-            clearTimeout(this.data.timeout[3])
-            clearTimeout(this.data.timeoout[3])
-            this.setData({
-                hover3: 'blackKey'
-            })
-        }
-        this.data.timeout[3] = setTimeout(() => {
-            this.setData({
-                hover3: ''
-            })
-        }, 1000);
-        this.data.timeoout[3] = setTimeout(() => {
-            this.data.timeout[3] = 0
-        }, 5000)
-
-    },
-    play4() {
-        this.data.record.record.push({
-            name: this.data.music + '_chip4.mp3',
-            time: Date.now() - this.data.record.startTime
-        })
-        let inneraudiocontext = swan.createInnerAudioContext();
-        inneraudiocontext.src = this.data.audioFilePath[4];
-        inneraudiocontext.play();
-        if (this.data.timeout[4]) {
-            clearTimeout(this.data.timeout[4])
-            clearTimeout(this.data.timeoout[4])
-            this.setData({
-                hover4: 'blackKey'
-            })
-        }
-        this.data.timeout[4] = setTimeout(() => {
-            this.setData({
-                hover4: ''
-            })
-        }, 1000);
-        this.data.timeoout[4] = setTimeout(() => {
-            this.data.timeout[4] = 0
-        }, 5000)
-    },
-    play5() {
-        this.data.record.record.push({
-            name: this.data.music + '_chip5.mp3',
-            time: Date.now() - this.data.record.startTime
-        })
-        let inneraudiocontext = swan.createInnerAudioContext();
-        inneraudiocontext.src = this.data.audioFilePath[5];
-        inneraudiocontext.play();
-        if (this.data.timeout[5]) {
-            clearTimeout(this.data.timeout[5])
-            clearTimeout(this.data.timeoout[5])
-            this.setData({
-                hover5: 'blackKey'
-            })
-        }
-        this.data.timeout[5] = setTimeout(() => {
-            this.setData({
-                hover5: ''
-            })
-        }, 1000);
-        this.data.timeoout[5] = setTimeout(() => {
-            this.data.timeout[5] = 0
-        }, 5000)
-    },
-    play6() {
-        this.data.record.record.push({
-            name: this.data.music + '_chip6.mp3',
-            time: Date.now() - this.data.record.startTime
-        })
-        let inneraudiocontext = swan.createInnerAudioContext();
-        inneraudiocontext.src = this.data.audioFilePath[6];
-        inneraudiocontext.play();
-        if (this.data.timeout[6]) {
-            clearTimeout(this.data.timeout[6])
-            clearTimeout(this.data.timeoout[6])
-            this.setData({
-                hover6: 'blackKey'
-            })
-        }
-        this.data.timeout[6] = setTimeout(() => {
-            this.setData({
-                hover6: ''
-            })
-        }, 1000);
-        this.data.timeoout[6] = setTimeout(() => {
-            this.data.timeout[6] = 0
-        }, 5000)
-    },
-    play7() {
-        this.data.record.record.push({
-            name: this.data.music + '_chip7.mp3',
-            time: Date.now() - this.data.record.startTime
-        })
-        let inneraudiocontext = swan.createInnerAudioContext();
-        inneraudiocontext.src = this.data.audioFilePath[7];
-        inneraudiocontext.play();
-        if (this.data.timeout[7]) {
-            clearTimeout(this.data.timeout[7])
-            clearTimeout(this.data.timeoout[7])
-            this.setData({
-                hover7: 'blackKey'
-            })
-        }
-        this.data.timeout[7] = setTimeout(() => {
-            this.setData({
-                hover7: ''
-            })
-        }, 1000);
-        this.data.timeoout[7] = setTimeout(() => {
-            this.data.timeout[7] = 0
-        }, 5000)
-    },
-    play8() {
-        this.data.record.record.push({
-            name: this.data.music + '_chip8.mp3',
-            time: Date.now() - this.data.record.startTime
-        })
-        let inneraudiocontext = swan.createInnerAudioContext();
-        inneraudiocontext.src = this.data.audioFilePath[8];
-        inneraudiocontext.play();
-        if (this.data.timeout[8]) {
-            clearTimeout(this.data.timeout[8])
-            clearTimeout(this.data.timeoout[8])
-            this.setData({
-                hover8: 'blackKey'
-            })
-        }
-        this.data.timeout[8] = setTimeout(() => {
-            this.setData({
-                hover8: ''
-            })
-        }, 1000);
-        this.data.timeoout[8] = setTimeout(() => {
-            this.data.timeout[8] = 0
-        }, 5000)
-    },
-    play9() {
-        this.data.record.record.push({
-            name: this.data.music + '_chip9.mp3',
-            time: Date.now() - this.data.record.startTime
-        })
-        let inneraudiocontext = swan.createInnerAudioContext();
-        inneraudiocontext.src = this.data.audioFilePath[9];
-        inneraudiocontext.play();
-        if (this.data.timeout[9]) {
-            clearTimeout(this.data.timeout[9])
-            clearTimeout(this.data.timeoout[9])
-            this.setData({
-                hover9: 'blackKey'
-            })
-        }
-        this.data.timeout[9] = setTimeout(() => {
-            this.setData({
-                hover9: ''
-            })
-        }, 1000);
-        this.data.timeoout[9] = setTimeout(() => {
-            this.data.timeout[9] = 0
-        }, 5000)
-    },
-    play10() {
-        this.data.record.record.push({
-            name: this.data.music + '_chip10.mp3',
-            time: Date.now() - this.data.record.startTime
-        })
-        let inneraudiocontext = swan.createInnerAudioContext();
-        inneraudiocontext.src = this.data.audioFilePath[10];
-        inneraudiocontext.play();
-        if (this.data.timeout[10]) {
-            clearTimeout(this.data.timeout[10])
-            clearTimeout(this.data.timeoout[10])
-            this.setData({
-                hover10: 'blackKey'
-            })
-        }
-        this.data.timeout[10] = setTimeout(() => {
-            this.setData({
-                hover10: ''
-            })
-        }, 1000);
-        this.data.timeoout[10] = setTimeout(() => {
-            this.data.timeout[10] = 0
-        }, 5000)
-    },
-    play11() {
-        this.data.record.record.push({
-            name: this.data.music + '_chip11.mp3',
-            time: Date.now() - this.data.record.startTime
-        })
-        let inneraudiocontext = swan.createInnerAudioContext();
-        inneraudiocontext.src = this.data.audioFilePath[11];
-        inneraudiocontext.play();
-        if (this.data.timeout[11]) {
-            clearTimeout(this.data.timeout[11])
-            clearTimeout(this.data.timeoout[11])
-            this.setData({
-                hover11: 'blackKey'
-            })
-        }
-        this.data.timeout[11] = setTimeout(() => {
-            this.setData({
-                hover11: ''
-            })
-        }, 1000);
-        this.data.timeoout[11] = setTimeout(() => {
-            this.data.timeout[11] = 0
-        }, 5000)
-    },
-    play12() {
-        this.data.record.record.push({
-            name: this.data.music + '_chip12.mp3',
-            time: Date.now() - this.data.record.startTime
-        })
-        let inneraudiocontext = swan.createInnerAudioContext();
-        inneraudiocontext.src = this.data.audioFilePath[12];
-        inneraudiocontext.play();
-        if (this.data.timeout[12]) {
-            clearTimeout(this.data.timeout[12])
-            clearTimeout(this.data.timeoout[12])
-            this.setData({
-                hover12: 'blackKey'
-            })
-        }
-        this.data.timeout[12] = setTimeout(() => {
-            this.setData({
-                hover12: ''
-            })
-        }, 1000);
-        this.data.timeoout[12] = setTimeout(() => {
-            this.data.timeout[12] = 0
-        }, 5000)
-    },
-    play13() {
-        this.data.record.record.push({
-            name: this.data.music + '_chip13.mp3',
-            time: Date.now() - this.data.record.startTime
-        })
-        let inneraudiocontext = swan.createInnerAudioContext();
-        inneraudiocontext.src = this.data.audioFilePath[13];
-        inneraudiocontext.play();
-        if (this.data.timeout[13]) {
-            clearTimeout(this.data.timeout[13])
-            clearTimeout(this.data.timeoout[13])
-            this.setData({
-                hover13: 'blackKey'
-            })
-        }
-        this.data.timeout[13] = setTimeout(() => {
-            this.setData({
-                hover13: ''
-            })
-        }, 1000);
-        this.data.timeoout[13] = setTimeout(() => {
-            this.data.timeout[13] = 0
-        }, 5000)
-    },
-    play14() {
-        this.data.record.record.push({
-            name: this.data.music + '_chip14.mp3',
-            time: Date.now() - this.data.record.startTime
-        })
-        let inneraudiocontext = swan.createInnerAudioContext();
-        inneraudiocontext.src = this.data.audioFilePath[14];
-        inneraudiocontext.play();
-        if (this.data.timeout[14]) {
-            clearTimeout(this.data.timeout[14])
-            clearTimeout(this.data.timeoout[14])
-            this.setData({
-                hover14: 'blackKey'
-            })
-        }
-        this.data.timeout[14] = setTimeout(() => {
-            this.setData({
-                hover14: ''
-            })
-        }, 1000);
-        this.data.timeoout[14] = setTimeout(() => {
-            this.data.timeout[14] = 0
-        }, 5000)
-    },
-    play15() {
-        this.data.record.record.push({
-            name: this.data.music + '_chip15.mp3',
-            time: Date.now() - this.data.record.startTime
-        })
-        let inneraudiocontext = swan.createInnerAudioContext();
-        inneraudiocontext.src = this.data.audioFilePath[15];
-        inneraudiocontext.play();
-        if (this.data.timeout[15]) {
-            clearTimeout(this.data.timeout[15])
-            clearTimeout(this.data.timeoout[15])
-            this.setData({
-                hover15: 'blackKey'
-            })
-        }
-        this.data.timeout[15] = setTimeout(() => {
-            this.setData({
-                hover15: ''
-            })
-        }, 1000);
-        this.data.timeoout[15] = setTimeout(() => {
-            this.data.timeout[15] = 0
-        }, 5000)
-    },
-    play16() {
-        this.data.record.record.push({
-            name: this.data.music + '_chip16.mp3',
-            time: Date.now() - this.data.record.startTime
-        })
-        let inneraudiocontext = swan.createInnerAudioContext();
-        inneraudiocontext.src = this.data.audioFilePath[16];
-        inneraudiocontext.play();
-        if (this.data.timeout[16]) {
-            clearTimeout(this.data.timeout[16])
-            clearTimeout(this.data.timeoout[16])
-            this.setData({
-                hover16: 'blackKey'
-            })
-        }
-        this.data.timeout[16] = setTimeout(() => {
-            this.setData({
-                hover16: ''
-            })
-        }, 1000);
-        this.data.timeoout[16] = setTimeout(() => {
-            this.data.timeout[16] = 0
-        }, 5000)
-    },
-    play17(e) {
-        this.data.record.record.push({
-            name: this.data.music + '_chip17.mp3',
-            time: Date.now() - this.data.record.startTime
-        })
-        let inneraudiocontext = swan.createInnerAudioContext();
-        inneraudiocontext.src = this.data.audioFilePath[17];
-        inneraudiocontext.play();
-        if (this.data.timeout[17]) {
-            clearTimeout(this.data.timeout[17])
-            clearTimeout(this.data.timeoout[17])
-            this.setData({
-                hover17: 'blackKey'
-            })
-        }
-        this.data.timeout[17] = setTimeout(() => {
-            this.setData({
-                hover17: ''
-            })
-        }, 1000);
-        setTimeout();
-        this.data.timeoout[17] = setTimeout(() => {
-            this.data.timeout[17] = 0
-        }, 5000)
-    },
-    play18() {
-        this.data.record.record.push({
-            name: this.data.music + '_chip18.mp3',
-            time: Date.now() - this.data.record.startTime
-        })
-        let inneraudiocontext = swan.createInnerAudioContext();
-        inneraudiocontext.src = this.data.audioFilePath[18];
-        inneraudiocontext.play();
-        if (this.data.timeout[18]) {
-            clearTimeout(this.data.timeout[18])
-            clearTimeout(this.data.timeoout[18])
-            this.setData({
-                hover18: 'blackKey'
-            })
-        }
-        this.data.timeout[18] = setTimeout(() => {
-            this.setData({
-                hover18: ''
-            })
-        }, 1000);
-        this.data.timeoout[18] = setTimeout(() => {
-            this.data.timeout[18] = 0
+        this.data.timeoout[parseInt(e.currentTarget.dataset.src)] = setTimeout(() => {
+            this.data.timeout[parseInt(e.currentTarget.dataset.src)] = 0
         }, 5000)
     },
     selectMusic() {

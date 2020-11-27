@@ -44,7 +44,9 @@ Page({
     swipeInit() {
         this.setData({
             record: app.globalData.record,
-            value: app.globalData.record[0] ? app.globalData.record[0].value : null
+            value: app.globalData.record[0] ? app.globalData.record[0].value : null,
+            count : 0,
+            currentPercent: 0
         })
     },
     swipeChange(e){
@@ -60,23 +62,20 @@ Page({
     audioInit() {
         if(this.data.audio){
             this.data.audio.offTimeUpdate()
-            console.log(this.data.audio)
-            this.data.audio.destory()
+        }else{
+            const audio = swan.createInnerAudioContext();
+            this.data.audio = audio;
         }
-        const audio = swan.createInnerAudioContext();
-        this.data.audio = audio;
         if (this.data.record.length) {
-            audio.src = this.data.record[this.data.count].link
-            audio.onTimeUpdate(res => {
-                console.log(res.data.currentTime)
+            this.data.audio.src = this.data.record[this.data.count].link
+            this.data.audio.onTimeUpdate(res => {
                 this.setData({
                     'currentTime': res.data.currentTime,
                     'duration': res.data.duration,
                     'currentPercent': res.data.currentTime / res.data.duration * 100
                 })
-                console.log(this.data)
             }),
-            audio.onEnded(res =>{
+            this.data.audio.onEnded(res =>{
                 this.audioStop()
             })
         }
@@ -101,25 +100,31 @@ Page({
             this.audioPause();
     },
     audioPlay() {
-        this.data.audio.play();
-        this.setData({
-            play: 1,
-            playButtonPic: "../../images/pause.png"
-        })
+        if(this.data.record.length){
+            this.data.audio.play();
+            this.setData({
+                play: 1,
+                playButtonPic: "../../images/pause.png"
+            })
+        }
     },
     audioStop(){
-        this.data.audio.stop();
-        this.setData({
-            play: 0,
-            playButtonPic: "../../images/play.png"
+        if(this.data.record.length){
+            this.data.audio.stop();
+            this.setData({
+                play: 0,
+                playButtonPic: "../../images/play.png"
         })
+    }
     },
     audioPause() {
-        this.data.audio.pause();
-        this.setData({
-            play: 0,
-            playButtonPic: "../../images/play.png"
-        })
+        if(this.data.record.length){
+            this.data.audio.pause();
+            this.setData({
+                play: 0,
+                playButtonPic: "../../images/play.png"
+            })
+        }
     },
     renamefile(e) {
         this.data.record[this.data.count].value = e.detail.value
@@ -166,6 +171,7 @@ Page({
         }
     },
     remove(){
+        console.log(this.data.audio)
         swan.showModal({
             content: '是否真的要删除该文件',
             success : res =>{

@@ -23,39 +23,39 @@
 </view>
 <view class="keyboard grid">
     <view class="grid top">
-        <view id="btn1" class="btn full {{hover1}}" hover-class="hoverKey" hover-stay-time="5000" bindtap="play1"></view>
-        <view id="btn2" class="btn full {{hover2}}" hover-class="hoverKey" hover-stay-time="5000" bindtap="play2"></view>
-        <view id="btn3" class="btn full {{hover3}}" hover-class="hoverKey" hover-stay-time="5000" bindtap="play3"></view>
+        <view id="btn1" data-src="1" class="btn full {{hover[1]}}" hover-class="hoverKey" hover-stay-time="5000" bindtap="play"></view>
+        <view id="btn2" data-src="2" class="btn full {{hover[2]}}" hover-class="hoverKey" hover-stay-time="5000" bindtap="play"></view>
+        <view id="btn3" data-src="3" class="btn full {{hover[3]}}" hover-class="hoverKey" hover-stay-time="5000" bindtap="play"></view>
         <view class="grid">
-            <view id="btn4" class="btn double {{hover4}}" hover-class="hoverKey" hover-stay-time="5000" bindtap="play4"></view>
+            <view id="btn4" data-src="4" class="btn double {{hover[4]}}" hover-class="hoverKey" hover-stay-time="5000" bindtap="play"></view>
             <view>
-                <view id="btn5" class="btn full {{hover5}}" hover-class="hoverKey" hover-stay-time="5000" bindtap="play5"></view>
-                <view id="btn6" class="btn full {{hover6}}" hover-class="hoverKey" hover-stay-time="5000" bindtap="play6"></view>
+                <view id="btn5" data-src="5" class="btn full {{hover[5]}}" hover-class="hoverKey" hover-stay-time="5000" bindtap="play"></view>
+                <view id="btn6" data-src="6" class="btn full {{hover[6]}}" hover-class="hoverKey" hover-stay-time="5000" bindtap="play"></view>
             </view>
         </view>
     </view>
     <view class="top">
-        <view id="btn7" class="btn half {{hover7}}" hover-class="hoverKey" hover-stay-time="5000" bindtap="play7"></view>
-        <view id="btn8" class="btn half {{hover8}}" hover-class="hoverKey" hover-stay-time="5000" bindtap="play8"></view>
+        <view id="btn7" data-src="7" class="btn half {{hover[7]}}" hover-class="hoverKey" hover-stay-time="5000" bindtap="play"></view>
+        <view id="btn8" data-src="8" class="btn half {{hover[8]}}" hover-class="hoverKey" hover-stay-time="5000" bindtap="play"></view>
     </view>
     <view>
-        <view id="btn9" class="btn full {{hover9}}" hover-class="hoverKey" hover-stay-time="5000" bindtap="play9"></view>
+        <view id="btn9" data-src="9" class="btn full {{hover[9]}}" hover-class="hoverKey" hover-stay-time="5000" bindtap="play"></view>
     </view>
     <view class="grid">
-        <view id="btn10" class="btn full {{hover10}}" hover-class="hoverKey" hover-stay-time="5000" bindtap="play10"></view>
-        <view id="btn11" class="btn full {{hover11}}" hover-class="hoverKey" hover-stay-time="5000" bindtap="play11"></view>
-        <view id="btn12" class="btn full {{hover12}}" hover-class="hoverKey" hover-stay-time="5000" bindtap="play12"></view>
-        <view id="btn13" class="btn full {{hover13}}" hover-class="hoverKey" hover-stay-time="5000" bindtap="play13"></view>
+        <view id="btn10" data-src="10" class="btn full {{hover[10]}}" hover-class="hoverKey" hover-stay-time="5000" bindtap="play"></view>
+        <view id="btn11" data-src="11" class="btn full {{hover[11]}}" hover-class="hoverKey" hover-stay-time="5000" bindtap="play"></view>
+        <view id="btn12" data-src="12" class="btn full {{hover[12]}}" hover-class="hoverKey" hover-stay-time="5000" bindtap="play"></view>
+        <view id="btn13" data-src="13" class="btn full {{hover[13]}}" hover-class="hoverKey" hover-stay-time="5000" bindtap="play"></view>
     </view>
     <view class="grid bottom">
-        <view id="btn14" class="btn double {{hover14}}" hover-class="hoverKey" hover-stay-time="5000" bindtap="play14"></view>
-        <view id="btn15" class="btn double {{hover15}}" hover-class="hoverKey" hover-stay-time="5000" bindtap="play15"></view>
+        <view id="btn14" data-src="14" class="btn double {{hover[14]}}" hover-class="hoverKey" hover-stay-time="5000" bindtap="play"></view>
+        <view id="btn15" data-src="15" class="btn double {{hover[15]}}" hover-class="hoverKey" hover-stay-time="5000" bindtap="play"></view>
     </view>
     <view class="grid bottom">
-        <view id="btn16" class="btn half {{hover16}}" hover-class="hoverKey" hover-stay-time="5000" bindtap="play16"></view>
+        <view id="btn16" data-src="16" class="btn half {{hover[16]}}" hover-class="hoverKey" hover-stay-time="5000" bindtap="play"></view>
         <view class="">
-            <view id="btn17" class="btn full {{hover17}}" hover-class="hoverKey" hover-stay-time="5000" bindtap="play17"></view>
-            <view id="btn18" class="btn full {{hover18}}" hover-class="hoverKey" hover-stay-time="5000" bindtap="play18"></view>
+            <view id="btn17" data-src="17" class="btn full {{hover[17]}}" hover-class="hoverKey" hover-stay-time="5000" bindtap="play"></view>
+            <view id="btn18" data-src="18" class="btn full {{hover[18]}}" hover-class="hoverKey" hover-stay-time="5000" bindtap="play"></view>
         </view>
     </view>
 </view>

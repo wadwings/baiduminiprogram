@@ -8,9 +8,6 @@ Page({
         'count': 0,
         'value': null,
         'sharelink': null,
-        'pic': {
-            'AndroidPorn': "https://images.pexels.com/photos/3489391/pexels-photo-3489391.jpeg",
-        },
         'currentTime': 0,
         'duration': 1,
         'currentPercent': 0,
@@ -55,7 +52,7 @@ Page({
         arr.push({
             link: this.data.link,
             music: this.data.music,
-            pic: this.data.pic[this.data.music],
+            pic: "https://unique-baiduprogram.cdn.bcebos.com/pic/" + this.data.music + '.jpg',
             ispermanent: false,
             value: null
         })
