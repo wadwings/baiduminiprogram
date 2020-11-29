@@ -12,7 +12,8 @@ Page({
         'currentPercent': 0,
         'cut': 0,
         'left': 0,
-        'right': 100
+        'right': 100,
+        'firstStrike': 1
     },
     onLoad: function () {
         this.f = swan.getFileSystemManager();
@@ -68,29 +69,44 @@ Page({
         }
         if (this.data.record.length) {
             this.data.audio.src = this.data.record[this.data.count].link
-            this.data.audio.onTimeUpdate(res => {
-                this.setData({
-                    'currentTime': res.data.currentTime,
-                    'duration': res.data.duration,
-                    'currentPercent': res.data.currentTime / res.data.duration * 100
-                })
-            }),
+            this.data.interval = setInterval(() => {
+                this.audioUpdate(this)
+            }, 1000);
             this.data.audio.onEnded(res =>{
                 this.audioStop()
             })
         }
     },
+    audioUpdate(that){
+        if(that.data.play){
+            if(that.data.cut && that.data.currentTime > that.data.right * that.data.duration / 100)
+            that.audioStop()
+            console.log('audioUpdate:' +    that.data.audio.currentTime)
+            console.log('that.data.firstStrike:' + that.data.firstStrike)
+            if(!that.data.firstStrike)
+            that.setData({
+                'currentTime': (that.data.audio.currentTime + 1),
+                'duration': that.data.audio.duration,
+                'currentPercent':  (that.data.audio.currentTime + 1) /  that.data.audio.duration * 100
+            })
+        else
+            that.data.firstStrike = 0
+        }
+    },
     sliderChanging() {
         if(this.data.play)
-            this.data.audio.pause();
+            this.audioPause();
     },
     sliderChange(e) {
+        let value = parseInt(e.detail.value * this.data.duration / 100)
         this.setData({
-            'currentTime': e.detail.value * this.data.duration / 100,
-            'currentPercent': e.detail.value
+            'currentTime': value,
+            'currentPercent': value * 100 / this.data.duration
         })
+        console.log('SilderChange, seekIndex:' + e.detail.value * this.data.duration / 100)
         this.data.audio.seek(e.detail.value * this.data.duration / 100)
-        if(this.data.play)
+        this.data.audio.currentTime = e.detail.value * this.data.duration / 100
+        if (this.data.play)
             this.data.audio.play();
     },
     playButtonPress() {
@@ -113,8 +129,12 @@ Page({
             this.data.audio.stop();
             this.setData({
                 play: 0,
-                playButtonPic: "../../images/play.png"
+                playButtonPic: "../../images/play.png",
+                currentPercent: 0,
+                currentTime: 0,
         })
+        this.data.audio.currentTime = 0
+        this.data.firstStrike = 1
     }
     },
     audioPause() {

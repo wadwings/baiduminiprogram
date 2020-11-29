@@ -1,11 +1,11 @@
 const app = getApp();
 Page({
     data: {
-        'music': "AndroidPorn",
+        'music': "Inception",
         'start': 0,
         'audioSources': [],
         'cdn': "https://unique-baiduprogram.cdn.bcebos.com/",
-        'extention': ".wav",
+        'extention': ".mp3",
         'audioFilePath': [],
         'value': '',
         "status": "录制",
@@ -34,6 +34,7 @@ Page({
         'minute': 0,
         'second': 0,
         'audio': [],
+        'color': 'grey'
     },
     onLoad: function () {
         let that = this;
@@ -53,12 +54,19 @@ Page({
         //     url: '../collection/collection'
         // })
         // 监听页面加载的生命周期函数
-
     },
     onReady: function () {
         // 监听页面初次渲染完成的生命周期函数
     },
     onShow: function () {
+        if(app.globalData.record.length)
+            this.setData({
+                color: 'black'
+            })
+        else
+            this.setData({
+                color: 'grey'
+            })
         // 监听页面显示的生命周期函数
     },
     onHide: function () {
@@ -112,7 +120,7 @@ Page({
                     music: that.data.music,
                     value: null
                 };
-                console.log(that.data)
+                console.log(that.data.record.record)
                 swan.request({
                     // 开发者服务器接口地址
                     url:  "https://bemusician.uniquestudio.orange233.top/music/merge",
@@ -205,7 +213,7 @@ Page({
         })
     },
     navigateTo(e) {
-        if(!this.data.start)
+        if(!this.data.start&&app.globalData.record.length)
         swan.navigateTo({
             url: '../collection/collection'
         })
@@ -223,6 +231,13 @@ Page({
                     this.data.audioFilePath[i] = res.tempFilePath;
                     this.data.audio[i] = swan.createInnerAudioContext()
                     this.data.audio[i].src = res.tempFilePath
+                    this.data.audio[i].onError(err =>{
+                        swan.showModal({
+                            title: 'onError',
+                            content: JSON.stringify(err)
+                        });
+                        console.log('onError', err);
+                    })
                     console.log(res.tempFilePath);
                     console.log(this.data.audio[i])
                     count++

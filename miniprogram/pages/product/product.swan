@@ -15,13 +15,13 @@
     <view class="center" style="height: 30%">
     <slider s-if={{!cut}} class="slider" value="{= currentPercent =}" block-size="12" block-color="grey" activeColor="grey" bindchange="sliderChange" bindchanging="sliderChanging" />
     <view s-if={{cut}} class="center sliderview">
-        <slider id="left" class="slider" value="{= left =}" block-size="12" block-color="red" activeColor="#cccccc" bindchange="leftChange"/>
-        <slider id="right" class="slider" value="{= right =}" block-size="12" block-color="red" activeColor="#cccccc" bindchange="RightChange"/>
+        <slider id="left" class="slider" value="{{ left }}" bindchange="leftchange" block-size="12" block-color="red" activeColor="#cccccc" bindchange="leftChange"/>
+        <slider id="right" class="slider" value="{{ right }}" bindchange="rightchange" block-size="12" block-color="red" activeColor="#cccccc" bindchange="RightChange"/>
     </view>
     </view>
     <view class="center" style="height: 70%">
         <button class="center play-button" bindtap="playButtonPress">
-            <image s-if={{!cut}} mode="aspectFit" src={{playButtonPic}}></image>
+            <image mode="aspectFit" src={{playButtonPic}}></image>
         </button>
     </view>
 </view>
@@ -31,5 +31,5 @@
 </view>
 <view s-if={{cut}} class="function">
     <view class="center func-border" bindtap="cancel">            <image mode="aspectFit" src="../../images/left.png" class="func-pic"></image></view>
-    <view class="center func-border"  bindtap="save">            <image mode="aspectFit" src="../../images/download.png" class="func-pic"></image></view>
+    <view class="center func-border"  bindtap="finish">            <image mode="aspectFit" src="../../images/download.png" class="func-pic"></image></view>
 </view>
