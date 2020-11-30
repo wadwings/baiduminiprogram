@@ -5,11 +5,11 @@
     "condition": {},
     "host": "baiduboxapp",
     "preview": {
-        "packageId": 632765
+        "packageId": 633032
     },
     "projectname": "cloud-demo",
     "publish": {
-        "version": "0.5.0"
+        "version": "0.7.0"
     },
     "setting": {
         "urlCheck": true

@@ -2,7 +2,8 @@
     "pages": [
         "pages/index/index",
         "pages/collection/collection",
-        "pages/product/product"
+        "pages/product/product",
+        "pages/music/index"
     ],
     "window": {
         "backgroundColor": "#F6F6F6",

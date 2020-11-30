@@ -3,7 +3,7 @@ Page({
     data: {
         'record': null, //record = [{link, music, pic, ispermanent}]
         'play': 0,
-        'playButtonPic':"../../images/play.png",
+        'playButtonPic': "../../images/play.png",
         'count': 0,
         'value': null,
         'sharelink': null,
@@ -43,71 +43,70 @@ Page({
         // 用户点击右上角转发
     },
     swipeInit() {
+        console.log(app.globalData.record)
         this.setData({
             record: app.globalData.record,
             value: app.globalData.record[0] ? app.globalData.record[0].value : null,
-            count : 0,
+            count: 0,
             currentPercent: 0
         })
     },
-    swipeChange(e){
+    swipeChange(e) {
         this.setData({
             playButtonPic: "../../images/play.png",
             play: 0,
             count: e.detail.current,
             value: this.data.record[e.detail.current].value
         })
-        this.data.audio.stop();
+        this.audio.stop();
         this.audioInit();
     },
     audioInit() {
-        if(this.data.audio){
-            this.data.audio.offTimeUpdate()
-        }else{
-            const audio = swan.createInnerAudioContext();
-            this.data.audio = audio;
+        this.audio = swan.createInnerAudioContext()
+        if (this.data.interval) {
+            clearInterval(this.data.interval)
         }
-        if (this.data.record.length) {
-            this.data.audio.src = this.data.record[this.data.count].link
-            this.data.interval = setInterval(() => {
-                this.audioUpdate(this)
-            }, 1000);
-            this.data.audio.onEnded(res =>{
-                this.audioStop()
-            })
-        }
+        console.log(this.data.record[this.data.count].link)
+        this.audio.src = this.data.record[this.data.count].link
+        this.data.interval = setInterval(() => {
+            this.audioUpdate(this)
+        }, 1000);
+        this.audio.onEnded(res => {
+            this.audioStop()
+        })
     },
-    audioUpdate(that){
-        if(that.data.play){
-            if(that.data.cut && that.data.currentTime > that.data.right * that.data.duration / 100)
-            that.audioStop()
-            console.log('audioUpdate:' +    that.data.audio.currentTime)
-            console.log('that.data.firstStrike:' + that.data.firstStrike)
-            if(!that.data.firstStrike)
-            that.setData({
-                'currentTime': (that.data.audio.currentTime + 1),
-                'duration': that.data.audio.duration,
-                'currentPercent':  (that.data.audio.currentTime + 1) /  that.data.audio.duration * 100
-            })
-        else
-            that.data.firstStrike = 0
+    audioUpdate(that) {
+        if (that.data.play) {
+            console.log('audioUpdate:' + that.audio.currentTime)
+            console.log('that.firstStrike:' + that.data.firstStrike)
+            if (!that.data.firstStrike)
+                that.setData({
+                    'currentTime': (that.audio.currentTime + 1),
+                    'duration': that.audio.duration,
+                    'currentPercent': (that.audio.currentTime + 1) / that.audio.duration * 100
+                })
+            else
+                that.data.firstStrike = 0
         }
     },
     sliderChanging() {
-        if(this.data.play)
+        if (this.data.play)
             this.audioPause();
     },
     sliderChange(e) {
+        this.audio.play()
+        this.audio.pause()
         let value = parseInt(e.detail.value * this.data.duration / 100)
         this.setData({
             'currentTime': value,
             'currentPercent': value * 100 / this.data.duration
         })
         console.log('SilderChange, seekIndex:' + e.detail.value * this.data.duration / 100)
-        this.data.audio.seek(e.detail.value * this.data.duration / 100)
-        this.data.audio.currentTime = e.detail.value * this.data.duration / 100
+        this.audio.seek(e.detail.value * this.data.duration / 100)
+        this.audio.currentTime = e.detail.value * this.data.duration / 100
+        this.data.currentTime = e.detail.value * this.data.duration / 100
         if (this.data.play)
-            this.data.audio.play();
+            this.audio.play();
     },
     playButtonPress() {
         if (this.data.play === 0)
@@ -116,50 +115,44 @@ Page({
             this.audioPause();
     },
     audioPlay() {
-        if(this.data.record.length){
-            this.data.audio.play();
-            this.setData({
-                play: 1,
-                playButtonPic: "../../images/pause.png"
-            })
-        }
-    },
-    audioStop(){
-        if(this.data.record.length){
-            this.data.audio.stop();
-            this.setData({
-                play: 0,
-                playButtonPic: "../../images/play.png",
-                currentPercent: 0,
-                currentTime: 0,
+        this.audio.play();
+        this.setData({
+            play: 1,
+            playButtonPic: "../../images/pause.png"
         })
-        this.data.audio.currentTime = 0
+    },
+    audioStop() {
+        this.audio.pause()
+        this.setData({
+            play: 0,
+            playButtonPic: "../../images/play.png",
+            currentPercent: 0,
+            currentTime: 0,
+        })
+        this.audio.currentTime = 0
         this.data.firstStrike = 1
-    }
     },
     audioPause() {
-        if(this.data.record.length){
-            this.data.audio.pause();
-            this.setData({
-                play: 0,
-                playButtonPic: "../../images/play.png"
-            })
-        }
+        this.audio.pause();
+        this.setData({
+            play: 0,
+            playButtonPic: "../../images/play.png"
+        })
     },
     renamefile(e) {
         this.data.record[this.data.count].value = e.detail.value
         this.f.rename({
             oldPath: this.data.record[this.data.count].link,
             newPath: `${swan.env.USER_DATA_PATH}/${this.data.record[this.data.count].value}.aac`,
-            success: res=>{
+            success: res => {
                 swan.showToast({
-                    title:"修改成功",
+                    title: "修改成功",
                 })
             },
-            fail: res=>{
+            fail: res => {
                 swan.showToast({
                     title: '修改失败',
-                    icon : 'none'
+                    icon: 'none'
                 })
             }
         })
@@ -190,12 +183,12 @@ Page({
 
         }
     },
-    remove(){
-        console.log(this.data.audio)
+    remove() {
+        console.log(this.audio)
         swan.showModal({
             content: '是否真的要删除该文件',
-            success : res =>{
-                if(res.confirm){
+            success: res => {
+                if (res.confirm) {
                     app.globalData.record.splice(this.data.count, 1)
                     console.log(app.globalData.record)
                     this.swipeInit();

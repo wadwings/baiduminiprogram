@@ -73,14 +73,19 @@ Page({
         let that = this
         if (this.data.link) {
             audio.src = this.data.link
+            audio.play()
+            audio.pause()
             this.setData({
-                duration: this.data.audio.duration
+                duration: audio.duration
             })
-            console.log(this.data.audio)
+            this.data.audio.seek(0)
+            this.data.audio.currentTime = 0
+            this.data.currentTime = 0
+            console.log(audio)
             this.data.interval = setInterval(() => {
                 this.audioUpdate(this)
             }, 1000);
-            this.data.audio.onEnded( () =>{
+            audio.onEnded( () =>{
                 this.audioStop()
             })
         }
@@ -106,14 +111,18 @@ Page({
             this.audioPause();
     },
     sliderChange(e) {
-        let value = parseInt(e.detail.value * this.data.duration / 100)
+        this.data.audio.play()
+        this.data.audio.pause()
+        let value = parseInt(e.detail.value * this.data.audio.duration / 100)
         this.setData({
             'currentTime': value,
-            'currentPercent': value * 100 / this.data.duration
+            'currentPercent': value * 100 / this.data.audio.duration
         })
-        console.log('SilderChange, seekIndex:' + e.detail.value * this.data.duration / 100)
-        this.data.audio.seek(e.detail.value * this.data.duration / 100)
-        this.data.audio.currentTime = e.detail.value * this.data.duration / 100
+        console.log('duration:' + this.data.audio.duration)
+        console.log('SilderChange, seekIndex:' + e.detail.value * this.data.audio.duration / 100)
+        this.data.audio.seek(e.detail.value * this.data.audio.duration/ 100)
+        this.data.audio.currentTime = e.detail.value * this.data.audio.duration / 100
+        this.data.currentTime = e.detail.value * this.data.audio.duration / 100
         if (this.data.play)
             this.data.audio.play();
     },
@@ -125,12 +134,14 @@ Page({
     },
     audioPlay() {
         console.log('audioPlay')
-        if(this.data.cut && this.data.currentTime == 0){
+        console.log(this.data.cut)
+        console.log(this.data.left * this.data.duration / 100)
+        if(this.data.cut){
+            this.data.audio.play()
+            this.data.audio.pause()
             this.data.audio.seek(this.data.left * this.data.duration / 100)
-            this.data.audio.currentTime = this.data.left * this.data.duration / 100
         }
         console.log(this.data.currentTime)
-        this.data.audio.currentTime = this.data.currentTime
         this.data.audio.play();
         this.setData({
             play: 1,
@@ -139,13 +150,13 @@ Page({
     },
     audioStop() {
         console.log('audioStop')
+        this.data.audio.pause()
         this.setData({
             currentTime: 0,
             currentPercent: 0,
             play: 0,
             playButtonPic: "../../images/play.png"
         })
-        this.data.audio.currentTime = 0
         this.data.firstStrike = 1
     },
     audioPause() {
@@ -207,56 +218,64 @@ Page({
         this.setData({
             cut: 0
         })
+        this.audioStop()
     },
     finish(){
         let that = this
         swan.showLoading({
             title:'loading'
         })
+        console.log(this.data.duration)
+        console.log(this.data.left)
+        console.log(this.data.right)
         swan.uploadFile({
             url:  "https://bemusician.uniquestudio.orange233.top/music/cut",
             filePath: this.data.link,
             name: 'myfile',
             formData: {
-                startTime: this.data.left / 100 * this.data.duration,
-                endTime: this.data.right / 100 * this.data.duration
+                startTime: parseInt(this.data.left  * this.data.duration * 10),
+                endTime: parseInt(this.data.right * this.data.duration * 10)
             },
             success: res =>{
                 console.log('uploadsuccess:' + res.statusCode)
-                console.log(res.data)
+                console.log(res.data.data)
                 if(res.statusCode == 200){
                     swan.downloadFile({
-                        url: 'https://bemusician.uniquestudio.orange233.top/music/cut/' + res.data,
+                        url: 'https://bemusician.uniquestudio.orange233.top/music/cut/' + res.data.data,
                         success: res =>{
                             that.setData({
                                 'link': res.tempFilePath
                             })
                             that.audioInit()
                             swan.hideLoading()
-                            that.save(that)
+                            that.save()
+                        },
+                        fail: res =>{
+                            swan.showToast({
+                                title: '剪辑失败',
+                                icon: 'none'
+                            })
                         }
                     })
                 }
             }
         });
     },
-    save(that) {
-        if(!that)
-            that = this
-        that.setData({
+    save() {
+        this.setData({
             cut: 0
         })
-        that.f.saveFile({
-            tempFilePath: that.data.link,
-            filePath: `${swan.env.USER_DATA_PATH}/${that.data.value}.aac`,
+        this.f.saveFile({
+            tempFilePath: this.data.link,
+            filePath: `${swan.env.USER_DATA_PATH}/${this.data.value}.aac`,
             success: res => {
                 swan.showToast({
                     title: "保存成功"
                 })
                 console.log(res.savedFilePath)
-                that.data.record[0].link = res.savedFilePath
-                that.data.record[0].permanent = that
-                that.data.record[0].value = that.data.value
+                this.data.record[0].link = res.savedFilePath
+                this.data.record[0].ispermanent = true
+                this.data.record[0].value = this.data.value
             },
             fail: err => {
                 swan.showToast({
@@ -267,23 +286,28 @@ Page({
         })
         if (!app.globalData.record)
             app.globalData.record = []
-        app.globalData.record.push(that.data.record[0])
+        app.globalData.record.push(this.data.record[0])
+        console.log(`app.globalData.record: ${app.globalData.record}`)
         swan.navigateBack()
     },
     leftchange(e){
-        this.data.left = e.detail.value
-        console.log(this.data.right < this.data.left)
-        if(this.data.left > this.data.right)
+        this.setData({
+            left : e.detail.value
+        })
+        console.log(`left${this.data.left}\nright${this.data.right}`)
+        if(this.data.left > this.data.right - 1 / this.data.audio.duration * 100)
             this.setData({
-                left: this.data.right - 1
+                left: this.data.right - 1 / this.data.audio.duration * 100
             })
     },
     rightchange(e){
-        this.data.right = e.detail.value
-        console.log(this.data.right < this.data.left)
-        if(this.data.right < this.data.left)
+        this.setData({
+            right : e.detail.value
+        })
+        console.log(`left${this.data.left}\nright${this.data.right}`)
+        if(this.data.right < this.data.left + 1 / this.data.audio.duration * 100)
             this.setData({
-                right: this.data.left + 1
+                right: this.data.left + 1 / this.data.audio.duration * 100
             })
     }
 });

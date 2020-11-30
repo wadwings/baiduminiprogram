@@ -50,10 +50,10 @@ Page({
         });
         this.recorderManagerInit(that);
         this.loadAudioFile();
-        // swan.navigateTo({
-        //     url: '../collection/collection'
+        //swan.navigateTo({
+        //     url: '../music/index'
         // })
-        // 监听页面加载的生命周期函数
+//        监听页面加载的生命周期函数
     },
     onReady: function () {
         // 监听页面初次渲染完成的生命周期函数
@@ -114,13 +114,12 @@ Page({
         console.log(that.recorderManager);
         recorderManager.onStop(
             function (res) {
+                let temp = res.tempFilePath
                 console.log("record stop")
-                app.globalData.temp = {
-                    link: res.tempFilePath,
-                    music: that.data.music,
-                    value: null
-                };
                 console.log(that.data.record.record)
+                swan.showLoading({
+                    title: 'Loading...'
+                });
                 swan.request({
                     // 开发者服务器接口地址
                     url:  "https://bemusician.uniquestudio.orange233.top/music/merge",
@@ -137,16 +136,44 @@ Page({
                     responseType: 'text',
                     // 收到开发者服务成功返回的回调函数。
                     success: res => {
-                        console.log(res)
+                        console.log(typeof res.data)
+                        console.log('statusCode:' + res.statusCode)
+                        console.log(`https://bemusician.uniquestudio.orange233.top/music/merge/${res.data.data}`)
+                        swan.downloadFile({
+                            url: `https://bemusician.uniquestudio.orange233.top/music/merge/${res.data.data}`,
+                            success: res=>{
+                                console.log(res.tempFilePath)
+                                app.globalData.temp = {
+                                    link: res.tempFilePath,
+                                    music: that.data.music,
+                                    value: null
+                                };
+                                console.log(app.globalData.temp)
+                                swan.navigateTo({
+                                    url: '../product/product'
+                                })
+                            },
+                            complete:()=>{
+                                swan.hideLoading()
+                            }
+                        })
                     },
                     // 接口调用失败的回调函数。
-                    fail: res => {},
+                    fail: res => {
+                        app.globalData.temp = {
+                            link: temp,
+                            music: that.data.music,
+                            value: null
+                        };
+                        console.log(app.globalData.temp)
+                        swan.navigateTo({
+                            url: '../product/product'
+                        })
+                    },
                     // 接口调用结束的回调函数（调用成功、失败都会执行）。
-                    complete: res => {}
+                    complete: res => {
+                    }
                 });
-                 swan.navigateTo({
-                     url: '../product/product'
-                 })
             }
 
         )
