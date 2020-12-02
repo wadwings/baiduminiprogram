@@ -143,7 +143,7 @@ Page({
         this.data.record[this.data.count].value = e.detail.value
         this.f.rename({
             oldPath: this.data.record[this.data.count].link,
-            newPath: `${swan.env.USER_DATA_PATH}/${this.data.record[this.data.count].value}.aac`,
+            newPath: `${swan.env.USER_DATA_PATH}/${this.data.record[this.data.count].value}.mp3`,
             success: res => {
                 swan.showToast({
                     title: "修改成功",
@@ -156,7 +156,7 @@ Page({
                 })
             }
         })
-        this.data.record[this.data.count].link = `${swan.env.USER_DATA_PATH}/${this.data.record[this.data.count].value}.aac`
+        this.data.record[this.data.count].link = `${swan.env.USER_DATA_PATH}/${this.data.record[this.data.count].value}.mp3`
     },
     share() {
         if (!this.data.record.length) {

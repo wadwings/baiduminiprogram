@@ -15,9 +15,21 @@ Page({
             "extention": '.mp3'
         }, {
             'name': 'AndroidPorn',
-            "extention": '.wav'
+            "extention": '.mp3'
         }, {
             'name': 'Inception',
+            'extention': '.mp3'
+        }, {
+            'name': 'Ascension',
+            'extention': '.mp3'
+        }, {
+            'name': 'fairy tail',
+            'extention': '.mp3'
+        }, {
+            'name': '三叶',
+            'extention': '.mp3'
+        }, {
+            'name': 'Animals',
             'extention': '.mp3'
         }],
         'select': 0,
@@ -136,27 +148,33 @@ Page({
                     responseType: 'text',
                     // 收到开发者服务成功返回的回调函数。
                     success: res => {
-                        console.log(typeof res.data)
-                        console.log('statusCode:' + res.statusCode)
-                        console.log(`https://bemusician.uniquestudio.orange233.top/music/merge/${res.data.data}`)
-                        swan.downloadFile({
-                            url: `https://bemusician.uniquestudio.orange233.top/music/merge/${res.data.data}`,
-                            success: res=>{
-                                console.log(res.tempFilePath)
-                                app.globalData.temp = {
-                                    link: res.tempFilePath,
-                                    music: that.data.music,
-                                    value: null
-                                };
-                                console.log(app.globalData.temp)
-                                swan.navigateTo({
-                                    url: '../product/product'
-                                })
-                            },
-                            complete:()=>{
-                                swan.hideLoading()
-                            }
-                        })
+                        if(res.statusCode == 200){
+                            swan.downloadFile({
+                                url: `https://bemusician.uniquestudio.orange233.top/music/merge/${res.data.data}`,
+                                success: res=>{
+                                    console.log(res.tempFilePath)
+                                    app.globalData.temp = {
+                                        link: res.tempFilePath,
+                                        music: that.data.music,
+                                        value: null
+                                    };
+                                    console.log(app.globalData.temp)
+                                    swan.navigateTo({
+                                        url: '../product/product'
+                                    })
+                                },
+                                complete:()=>{
+                                    swan.hideLoading()
+                                }
+                            })
+                        }
+                        else{
+                            swan.hideLoading()
+                            swan.showToast({
+                                icon:'none',
+                                title: '请检查你的网络'
+                            });
+                        }
                     },
                     // 接口调用失败的回调函数。
                     fail: res => {
@@ -244,6 +262,12 @@ Page({
         swan.navigateTo({
             url: '../collection/collection'
         })
+        else{
+            swan.showToast({
+                icon: 'none',
+                title: '暂无作品，请先进行创作'
+            })
+        }
     },
     loadAudioFile() {
         swan.showLoading({

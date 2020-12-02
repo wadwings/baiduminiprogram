@@ -267,7 +267,7 @@ Page({
         })
         this.f.saveFile({
             tempFilePath: this.data.link,
-            filePath: `${swan.env.USER_DATA_PATH}/${this.data.value}.aac`,
+            filePath: `${swan.env.USER_DATA_PATH}/${this.data.value}.mp3`,
             success: res => {
                 swan.showToast({
                     title: "保存成功"

@@ -4,7 +4,7 @@
     </view>
     <view class="center relative">
         <view>{{music}}</view>
-        <image class="down" src={{arrow}} bindtap="selectMusic"></image>
+        <image class="down" src={{arrow}} s-if={{!start}} bindtap="selectMusic"></image>
         <view class="musicList" s-if={{select}}>
             <view class="musicBlock" data-music="{{item.name}}" data-extention="{{item.extention}}" bindtap="ChangeMusic" s-for={{list}}>
                 {{item.name}}
