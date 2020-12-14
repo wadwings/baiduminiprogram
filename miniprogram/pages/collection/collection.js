@@ -1,4 +1,5 @@
 const app = getApp();
+const key = 'getMusic'
 Page({
     data: {
         'record': null, //record = [{link, music, pic, ispermanent}]
@@ -17,8 +18,31 @@ Page({
     },
     onLoad: function () {
         this.f = swan.getFileSystemManager();
-        this.swipeInit();
-        this.audioInit();
+        swan.getStorage({
+            key,
+            success: res => {
+                console.log('缓存获取成功')
+                for(let i in res){
+                    let flag = 0
+                    for(let t in app.globalData.record){
+                        if(t.link === i.link){
+                            flag = 1;
+                            break;
+                        }
+                    }
+                    if(!flag)
+                        app.globalData.record.push(i)
+                }
+                this.swipeInit();
+                this.audioInit();
+            },
+            fail: () => {
+                console.log('缓存获取失败')
+                this.swipeInit();
+                this.audioInit();
+            },
+            complete: () => console.log('获取完成')
+        })
         // 监听页面加载的生命周期函数
     },
     onReady: function () {
@@ -62,6 +86,11 @@ Page({
         this.audioInit();
     },
     audioInit() {
+        swan.setStorage({
+            key,
+            data: app.globalData.record,
+            success: () => {console.log('保存成功')}
+        })
         this.audio = swan.createInnerAudioContext()
         if (this.data.interval) {
             clearInterval(this.data.interval)

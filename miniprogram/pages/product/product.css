@@ -3,7 +3,6 @@
     height: 10vh;
     grid-template-columns: 1fr 1fr;
 }
-
 .text{
     display:flex;
     align-items: flex-end;
@@ -11,7 +10,6 @@
     margin: 10%;
     font-weight: 600;
 }
-
 .nav{
     display: flex;
     align-items: center;

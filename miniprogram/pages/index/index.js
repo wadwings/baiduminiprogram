@@ -1,4 +1,5 @@
 const app = getApp();
+const key = 'getMusic'
 Page({
     data: {
         'music': "Inception",
@@ -49,6 +50,26 @@ Page({
         'color': 'grey'
     },
     onLoad: function () {
+        swan.getStorageInfo({
+            success: res => console.log(res.keys)
+        })
+        swan.getStorage({
+            key,
+            success: res => {
+                console.log('缓存获取成功')
+                app.globalData.record = res.data;
+                console.log(app.globalData.record)
+                console.log(app.globalData.record.length)
+                if(app.globalData.record.length)
+                    this.setData({
+                        color: 'black'
+                    })
+            },
+            fail: () => {
+                console.log('缓存获取失败')
+            },
+            complete: () => console.log('获取完成')
+        })
         let that = this;
         swan.setInnerAudioOption({
             mixWithOther: true,
@@ -71,14 +92,6 @@ Page({
         // 监听页面初次渲染完成的生命周期函数
     },
     onShow: function () {
-        if(app.globalData.record.length)
-            this.setData({
-                color: 'black'
-            })
-        else
-            this.setData({
-                color: 'grey'
-            })
         // 监听页面显示的生命周期函数
     },
     onHide: function () {
@@ -223,6 +236,8 @@ Page({
         }
     },
     recorderManagerStart() {
+        if(this.data.select)
+            return;
         this.data.record.startTime = Date.now()
         this.data.record.music = this.data.music
         this.data.record.record = []

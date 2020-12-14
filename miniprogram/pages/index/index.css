@@ -13,7 +13,6 @@
     border: 0.5px black solid;
     transition: 0.5s;
 }
-
 .full:after{content:'';display:block;padding-top:calc(100%);}
 .double:after{content:'';display:block;padding-top:calc(200% - 2px);}
 .half:after{content:'';display:block;padding-top:calc(50% - 0.5px);}
