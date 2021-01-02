@@ -203,6 +203,8 @@ Page({
     },
     cut() {
         let that = this
+        this.data.audio.play()
+        this.data.audio.pause()
         swan.showActionSheet({
             itemList: ['开始剪辑'],
             itemColor: 'grey',

@@ -12,12 +12,24 @@
 .btn{
     border: 0.5px black solid;
     transition: 0.5s;
+    background: inherit;
+    margin: 0!important
+}
+.btn2{
+    box-shadow: none!important;
+    border: 0.5px black solid;
+    transition: 0.5s;
+    background: inherit;
 }
 .full:after{content:'';display:block;padding-top:calc(100%);}
 .double:after{content:'';display:block;padding-top:calc(200% - 2px);}
 .half:after{content:'';display:block;padding-top:calc(50% - 0.5px);}
 .top{
     border-top: 1px black solid;
+}
+.vec{
+    display: grid;
+    grid-template-rows: 1fr 1fr;
 }
 .bottom{
     border-bottom: 1px black solid;
@@ -50,10 +62,27 @@
     height: 21px;
     width: 21px;
 }
+.theme{
+    position: absolute;
+    left: 0;
+    height: 21px;
+    width: 21px;
+}
 .hoverKey{
     /* background-color: black; */
+    margin: 0;
     box-shadow: 2px 2px 2px rgba(0,0,0,0.8),
                 4px 4px 3px rgba(0,0,0,0.4);
+    transition: 0.5s!important;
+}
+.hoverKey2{
+    margin: 25%;
+    box-shadow: none;
+    transition: 0.5s!important;
+}
+.hoverKey3{
+    margin: 12.5% 25%;
+    box-shadow: none;
     transition: 0.5s!important;
 }
 .musicList{
@@ -96,4 +125,40 @@
     font-size: 15px;
     color:black;
     width: 100%
+}
+.reminder{
+    width: calc(80% - 60px);
+    position: absolute;
+    top:30vh;
+    left:10vw;
+    background-color: white;
+    padding: 30px 30px 30px 30px;
+    font-size: 12px;
+}
+.text{
+    margin: 0 0 30px 0;
+}
+.close{
+    background-color: black;
+    color: white;
+    font-size: 15px;
+}
+.cover{
+    position: absolute;
+    top:0;
+    height: 100vh;
+    width: 100%;
+    background-color: rgba(0,0,0,0.4);
+}
+.background1{
+    background-image: linear-gradient(to top, #cb6451, #133add, #f5e072, #88cac7, #ffffff);
+}
+.background2{
+    background-color: white;
+}
+.instruction{
+    font-size: 12px;
+    position: absolute;
+    color: grey;
+    bottom: 0%;
 }

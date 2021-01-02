@@ -1,5 +1,6 @@
 const app = getApp();
-const key = 'getMusic'
+const key = 'key'
+const firstLaunch = 'firstLaunch'
 Page({
     data: {
         'music': "Inception",
@@ -47,11 +48,28 @@ Page({
         'minute': 0,
         'second': 0,
         'audio': [],
-        'color': 'grey'
+        'color': 'grey',
+        'reminder': 0,
+        'background': "background2",
+        'hover1': 'hoverKey',
+        'hover2': 'hoverKey',
+        'btn': 'btn',
     },
     onLoad: function () {
         swan.getStorageInfo({
-            success: res => console.log(res.keys)
+            success: res => {
+                console.log(res.keys)
+                if(res.keys.indexOf("firstLaunch") == -1){
+                    this.setData({
+                        'reminder': 1
+                    })
+                    console.log("show reminder")
+                    swan.setStorage({
+                        key: firstLaunch,
+                        data: 1
+                    })
+                }
+            }
         })
         swan.getStorage({
             key,
@@ -93,6 +111,18 @@ Page({
     },
     onShow: function () {
         // 监听页面显示的生命周期函数
+        if(app.globalData.record.length){
+            console.log('black')
+            this.setData({
+                color: 'black'
+            })
+        }else{
+            console.log('grey')
+            this.setData({
+                color: 'grey'
+            })
+        }
+
     },
     onHide: function () {
         // 监听页面隐藏的生命周期函数
@@ -161,6 +191,7 @@ Page({
                     responseType: 'text',
                     // 收到开发者服务成功返回的回调函数。
                     success: res => {
+                        console.log(res)
                         if(res.statusCode == 200){
                             swan.downloadFile({
                                 url: `https://bemusician.uniquestudio.orange233.top/music/merge/${res.data.data}`,
@@ -185,7 +216,7 @@ Page({
                             swan.hideLoading()
                             swan.showToast({
                                 icon:'none',
-                                title: '请检查你的网络'
+                                title: '请点击按键才有音乐哦'
                             });
                         }
                     },
@@ -250,7 +281,7 @@ Page({
         };
         this.recorderManager.start(options);
         this.setData({
-            status: "停止",
+            status: "完成",
             start: 1
         })
         this.data.interval = setInterval(() => {
@@ -285,6 +316,7 @@ Page({
         }
     },
     loadAudioFile() {
+        console.log(this.data.audio)
         swan.showLoading({
             title: 'Loading...'
         });
@@ -297,11 +329,14 @@ Page({
                     this.data.audioFilePath[i] = res.tempFilePath;
                     this.data.audio[i] = swan.createInnerAudioContext()
                     this.data.audio[i].src = res.tempFilePath
-                    this.data.audio[i].onError(err =>{
+                    this.data.audio[i].onError(err => {
+                        for(let i = 1 ; i < this.data.audio.length;i++){
+                            this.data.audio[i].offError()
+                        }
                         swan.showModal({
-                            title: 'onError',
-                            content: JSON.stringify(err)
-                        });
+                            title: '错误',
+                            content: '数据异常，请手动重启小程序'
+                        })
                         console.log('onError', err);
                     })
                     console.log(res.tempFilePath);
@@ -365,5 +400,32 @@ Page({
         })
         setTimeout(this.loadAudioFile(), 1000);
         this.selectMusic();
+    },
+    close(){
+        this.setData({
+            reminder: 0
+        })
+    },
+    changeTheme(){
+        if(this.data.background == 'background2'){
+            this.setData({
+                background: 'background1',
+                hover1: 'hoverKey2',
+                hover2: 'hoverKey3',
+                btn: 'btn2'
+            })
+        }else{
+            this.setData({
+                background: 'background2',
+                hover1: 'hoverKey',
+                hover2: 'hoverKey',
+                btn: 'btn'
+            })
+        }
+    },
+    instruction(){
+        this.setData({
+            reminder:1
+        })
     }
 });
