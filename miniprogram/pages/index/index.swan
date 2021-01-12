@@ -2,74 +2,110 @@
     <view class="control">
         <view class="center" style="position: relative">
             <button class="collection" style="color:{{color}}" bindtap="navigateTo"><text>作品</text></button>
-            <button class="instruction collection" bindtap="instruction" button><text>使用说明</text></button>
+            <button s-if="more" class="more collection" bindtap="more" button><text>更多</text></button>
+            <view s-if="morefunction" class="func">
+                <button class="collection inst-func" bindtap="instruction" button><text>使用说明</text></button>
+                <button class="collection inst-func" bindtap="feedback" button><text>意见反馈</text></button>
+            </view>
         </view>
         <view class="center relative">
             <view>{{music}}</view>
             <image class="down" src={{arrow}} s-if={{!start}} bindtap="selectMusic"></image>
             <image class="theme" src="./../../images/theme.png" bindtap="changeTheme"></image>
             <view class="musicList" s-if={{select}}>
-                <view class="musicBlock" data-music="{{item.name}}" data-extention="{{item.extention}}" bindtap="ChangeMusic" s-for={{list}}>
+                <view class="musicBlock" data-music="{{item.name}}" data-extention="{{item.extention}}"
+                    bindtap="ChangeMusic" s-for={{list}}>
                     {{item.name}}
                 </view>
             </view>
         </view>
-        <view class="center" style="position:relative" bindtap="recorder"><button class="black collection center"><text>{{status}}</text>
-            <view class="timeCounter">
-                <view style="width:20px" class="center">
-                    <image class="redpoint" src='../../images/redpoint.png'>
+        <view class="center" style="position:relative" bindtap="recorder"><button
+                class="black collection center"><text>{{status}}</text>
+                <view class="timeCounter">
+                    <view style="width:20px" class="center">
+                        <image class="redpoint" src='../../images/redpoint.png'>
+                    </view>
+                    <view class="recordTime center">{{recordTime}}</view>
                 </view>
-                <view class="recordTime center">{{recordTime}}</view>
-            </view>
-        </button>
+            </button>
         </view>
     </view>
     <view class="keyboard grid">
         <view class="grid top">
             <view>
-                <view id="btn1" data-src="1" class="{{btn}} full {{hover[1]}}" hover-class="{{hover1}}" hover-stay-time="5000" bindtap="play"></view>
+                <view id="btn1" data-src="1" class="{{btn}} full {{hover[1]}}" hover-class="{{hover1}}"
+                    hover-stay-time="5000" bindtap="play"></view>
             </view>
-            <view id="btn2" data-src="2" class="{{btn}} full {{hover[2]}}" hover-class="{{hover1}}" hover-stay-time="5000" bindtap="play"></view>
-            <view id="btn3" data-src="3" class="{{btn}} full {{hover[3]}}" hover-class="{{hover1}}" hover-stay-time="5000" bindtap="play"></view>
+            <view id="btn2" data-src="2" class="{{btn}} full {{hover[2]}}" hover-class="{{hover1}}"
+                hover-stay-time="5000" bindtap="play"></view>
+            <view id="btn3" data-src="3" class="{{btn}} full {{hover[3]}}" hover-class="{{hover1}}"
+                hover-stay-time="5000" bindtap="play"></view>
             <view class="grid">
-                <view id="btn4" data-src="4" class="{{btn}} double {{hover[4]}}" hover-class="{{hover1}}" hover-stay-time="5000" bindtap="play"></view>
+                <view id="btn4" data-src="4" class="{{btn}} double {{hover[4]}}" hover-class="{{hover1}}"
+                    hover-stay-time="5000" bindtap="play"></view>
                 <view class="vec">
-                    <view id="btn5" data-src="5" class="{{btn}} full {{hover[5]}}" hover-class="{{hover1}}" hover-stay-time="5000" bindtap="play"></view>
-                    <view id="btn6" data-src="6" class="{{btn}} full {{hover[6]}}" hover-class="{{hover1}}" hover-stay-time="5000" bindtap="play"></view>
+                    <view id="btn5" data-src="5" class="{{btn}} full {{hover[5]}}" hover-class="{{hover1}}"
+                        hover-stay-time="5000" bindtap="play"></view>
+                    <view id="btn6" data-src="6" class="{{btn}} full {{hover[6]}}" hover-class="{{hover1}}"
+                        hover-stay-time="5000" bindtap="play"></view>
                 </view>
             </view>
         </view>
         <view class="top vec">
-            <view id="btn7" data-src="7" class="{{btn}} half {{hover[7]}}" hover-class="{{hover2}}" hover-stay-time="5000" bindtap="play"></view>
-            <view id="btn8" data-src="8" class="{{btn}} half {{hover[8]}}" hover-class="{{hover2}}" hover-stay-time="5000" bindtap="play"></view>
+            <view id="btn7" data-src="7" class="{{btn}} half {{hover[7]}}" hover-class="{{hover2}}"
+                hover-stay-time="5000" bindtap="play"></view>
+            <view id="btn8" data-src="8" class="{{btn}} half {{hover[8]}}" hover-class="{{hover2}}"
+                hover-stay-time="5000" bindtap="play"></view>
         </view>
         <view>
-            <view id="btn9" data-src="9" class="{{btn}} full {{hover[9]}}" hover-class="{{hover1}}" hover-stay-time="5000" bindtap="play"></view>
+            <view id="btn9" data-src="9" class="{{btn}} full {{hover[9]}}" hover-class="{{hover1}}"
+                hover-stay-time="5000" bindtap="play"></view>
         </view>
         <view class="grid vec">
-            <view id="btn10" data-src="10" class="{{btn}} full {{hover[10]}}" hover-class="{{hover1}}" hover-stay-time="5000" bindtap="play"></view>
-            <view id="btn11" data-src="11" class="{{btn}} full {{hover[11]}}" hover-class="{{hover1}}" hover-stay-time="5000" bindtap="play"></view>
-            <view id="btn12" data-src="12" class="{{btn}} full {{hover[12]}}" hover-class="{{hover1}}" hover-stay-time="5000" bindtap="play"></view>
-            <view id="btn13" data-src="13" class="{{btn}} full {{hover[13]}}" hover-class="{{hover1}}" hover-stay-time="5000" bindtap="play"></view>
+            <view id="btn10" data-src="10" class="{{btn}} full {{hover[10]}}" hover-class="{{hover1}}"
+                hover-stay-time="5000" bindtap="play"></view>
+            <view id="btn11" data-src="11" class="{{btn}} full {{hover[11]}}" hover-class="{{hover1}}"
+                hover-stay-time="5000" bindtap="play"></view>
+            <view id="btn12" data-src="12" class="{{btn}} full {{hover[12]}}" hover-class="{{hover1}}"
+                hover-stay-time="5000" bindtap="play"></view>
+            <view id="btn13" data-src="13" class="{{btn}} full {{hover[13]}}" hover-class="{{hover1}}"
+                hover-stay-time="5000" bindtap="play"></view>
         </view>
         <view class="grid bottom">
-            <view id="btn14" data-src="14" class="{{btn}} double {{hover[14]}}" hover-class="{{hover1}}" hover-stay-time="5000" bindtap="play"></view>
-            <view id="btn15" data-src="15" class="{{btn}} double {{hover[15]}}" hover-class="{{hover1}}" hover-stay-time="5000" bindtap="play"></view>
+            <view id="btn14" data-src="14" class="{{btn}} double {{hover[14]}}" hover-class="{{hover1}}"
+                hover-stay-time="5000" bindtap="play"></view>
+            <view id="btn15" data-src="15" class="{{btn}} double {{hover[15]}}" hover-class="{{hover1}}"
+                hover-stay-time="5000" bindtap="play"></view>
         </view>
         <view class="grid bottom">
-            <view id="btn16" data-src="16" class="{{btn}} half {{hover[16]}}" hover-class="{{hover1}}" hover-stay-time="5000" bindtap="play"></view>
+            <view id="btn16" data-src="16" class="{{btn}} half {{hover[16]}}" hover-class="{{hover1}}"
+                hover-stay-time="5000" bindtap="play"></view>
             <view class="vec">
-                <view id="btn17" data-src="17" class="{{btn}} full {{hover[17]}}" hover-class="{{hover1}}" hover-stay-time="5000" bindtap="play"></view>
-                <view id="btn18" data-src="18" class="{{btn}} full {{hover[18]}}" hover-class="{{hover1}}" hover-stay-time="5000" bindtap="play"></view>
+                <view id="btn17" data-src="17" class="{{btn}} full {{hover[17]}}" hover-class="{{hover1}}"
+                    hover-stay-time="5000" bindtap="play"></view>
+                <view id="btn18" data-src="18" class="{{btn}} full {{hover[18]}}" hover-class="{{hover1}}"
+                    hover-stay-time="5000" bindtap="play"></view>
             </view>
         </view>
     </view>
 </view>
 <view class="cover" s-if="{{reminder}}">
-    <view s-if="{{reminder}}"class="reminder">
-        <view class="text">欢迎使用“创小联音乐创作家”，使用说明如下：<br><br> 1. 点击不同的按键可以发出不同的声音，连起来即可创作好听的音乐。 <br>2. 点击模板旁的向下箭头可以切换模板。 <br>3. 点击录制可以开始录制你通过按键连成的乐曲，点击完成即可对乐曲进行命名/裁剪/保存/分享。 <br>4. 有作品后，点击作品可以播放自己的作品，左右滑动切换，点击名字可以修改名字。<br>提示:有时候可能加载时间有点长，请耐心等待</view>
+    <view class="reminder">
+        <view class="text">欢迎使用“创小联音乐创作家”，使用说明如下：<br><br> 1. 点击不同的按键可以发出不同的声音，连起来即可创作好听的音乐。 <br>2. 点击模板旁的向下箭头可以切换模板。
+            <br>3. 点击录制可以开始录制你通过按键连成的乐曲，点击完成即可对乐曲进行命名/裁剪/保存/分享。 <br>4.
+            有作品后，点击作品可以播放自己的作品，左右滑动切换，点击名字可以修改名字。<br>提示:有时候可能加载时间有点长，请耐心等待</view>
         <view>
             <button bindtap="close" class="close">我知道了</button>
+        </view>
+    </view>
+</view>
+<view class="cover" s-if="feedback">
+    <view class="reminder">
+        <view style="">意见反馈:</view>
+        <textarea auto-height maxlength="-1" class="textarea" bindinput="onWrite">
+        </textarea>
+        <view>
+            <button bindtap="submit" class="close">提交</button>
         </view>
     </view>
 </view>

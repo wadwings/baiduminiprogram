@@ -1,5 +1,6 @@
 const app = getApp();
 const key = 'key'
+const db = swan.cloud.database();
 const firstLaunch = 'firstLaunch'
 Page({
     data: {
@@ -54,6 +55,8 @@ Page({
         'hover1': 'hoverKey',
         'hover2': 'hoverKey',
         'btn': 'btn',
+        'more': 1,
+        'morefunction': 0
     },
     onLoad: function () {
         swan.getStorageInfo({
@@ -403,6 +406,8 @@ Page({
     },
     close(){
         this.setData({
+            more: 1,
+            morefunction: 0,
             reminder: 0
         })
     },
@@ -423,9 +428,50 @@ Page({
             })
         }
     },
+    more(){
+        this.setData({
+            more:0,
+            morefunction:1,
+        })
+    },
     instruction(){
         this.setData({
             reminder:1
+        })
+    },
+    feedback(){
+        this.setData({
+            feedback:1
+        })
+    },
+    onWrite(e){
+        this.setData({
+            feedbackText:e.detail.value
+        })
+    },
+    submit(){
+        let that = this
+        db.collection('feedback').add({
+            data:{
+                Imformation: that.data.feedbackText,
+                Time: Date()
+            },
+            success: () => {
+                swan.showToast({
+                    title:'成功'
+                })
+                this.setData({
+                    more: 1,
+                    morefunction: 0,
+                    feedback: 0,
+                })
+            },
+            fail: () => {
+                swan.showToast({
+                    'icon': none,
+                    'title': '提交失败，请检查你的网络情况'
+                })
+            }
         })
     }
 });
